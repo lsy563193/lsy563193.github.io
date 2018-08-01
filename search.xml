@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[开机安装]]></title>
+    <url>%2Flinux-config%2F</url>
+    <content type="text"><![CDATA[安装ssl安装 gitsudo apt-get install gitgit config –global user.email “you@example.com“git config –global user.name “Your Name” 安装 Node.jswget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shexport NVM_DIR=”$HOME/.nvm”[ -s “$NVM_DIR/nvm.sh” ] &amp;&amp; . “$NVM_DIR/nvm.sh”nvm install stable 安装 Hexonpm install -g hexo-clinpm install hexo –save tmuxsudo apt-get install tmux 设置shell为zshrcsudo apt-get install zshchsh -s /bin/zshwget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh 切换caps to ctrlecho “setxkbmap -layout us -option ctrl:nocaps” &gt;&gt; ~/.zshrc 模糊搜索神器fzfgit clone –depth 1 https://github.com/junegunn/fzf.git ~/.fzf~/.fzf/installsource ~/.zshrc autojumpgit clone git://github.com/joelthelion/autojump.git ~/.autojump~cd ~/.autojump~./install.py[[ -s /home/syue/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /home/syue/.autojump/etc/profile.d/autojump.shautoload -U compinit &amp;&amp; compinit -u install rossudo sh -c ‘echo “deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main” &gt; /etc/apt/sources.list.d/ros-latest.list’sudo apt-key adv –keyserver hkp://ha.pool.sks-keyservers.net:80 –recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116sudo apt-get updatesudo apt-get install ros-kinetic-desktop-fullapt-cache search ros-kineticsudo rosdep initrosdep updateecho “source /opt/ros/kinetic/setup.zsh” &gt;&gt; ~/.zshrcsource ~/.zshrcsource /opt/ros/kinetic/setup.zsh]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[吴恩达《深度学习》系列课程个人笔记]]></title>
+    <url>%2FAndrew-Ng-Deep-Learning-notes%2F</url>
+    <content type="text"><![CDATA[k aa]]></content>
+      <categories>
+        <category>深度学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Testing</tag>
+        <tag>Another Tag</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Algorithms-notes]]></title>
+    <url>%2FAlgorithms-notes%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>algo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[静脉曲张的原理和治疗方法]]></title>
+    <url>%2FVaricose-veins%2F</url>
+    <content type="text"><![CDATA[概述静脉曲张形成的主要原因是由于先天性血管壁膜比较薄弱或长时间维持相同姿势很少改变，血液蓄积下肢，在日积月累的情况下破坏静脉瓣膜而产生静脉压过高，使血管突出皮肤表面的症状。 改善方法物理治疗: 弹力袜1.1 弹力袜促进血液回流: 为什么有用?: 弹力袜在腿上的压力不一样，利用这种压力梯度可以促进血液回流。 注意： 但不是所有的人都适合穿弹力袜，静脉曲张较严重的患者穿弹力袜之前最好咨询医生。 1.2 按摩加速血液循环:在腿部感到疲劳时，或者平时方便的时候对腿部进行简单的揉捏，加速血液循环。 注意：坚持下来，静脉曲张就可以得到有效的改善.至于按摩可以改善血液循环的原理其实并不是很有科学依据，知乎上还是能找到一些,但是找不到靠谱的解释，本人实践过，确实是没有什么改善,不过也有可能是按摩手法的不对。网上找了能够促进血液循环的按摩方法.静脉曲张按摩手法 运动加强静脉管壁从血液动力学的角度进行观察，健康的人在运动时，由于瓣膜的功能正常，肌肉的规律性收缩使得深部静脉血液回流加速，皮下静脉的压力甚至可能比静止时还低。所以进行适当的跑步锻炼，不但不会引起下肢静脉曲张，恰恰相反，跑步可以使腿部肌肉活动增强，挤压静脉内的血液，使其流动更加顺畅，还有助于预防和改善下肢静脉曲张。对于静脉曲张的患者来说，当然也可以进行如慢跑、游泳、单车、跳绳等运动。但是因为静脉瓣膜功能受损，应当避免像举重、快速冲刺短跑、跳远、投掷等引起腹压增高的活动。 注意:但是严重的静脉曲张患者，不要一下子运动过量，否则容易对心血管造成伤害。 食疗 多食用蔬菜、水果、豆类等纤维素含量较高的食物，适量食用瘦牛肉、鸡肉等，多吃含维E的食物，如洋白菜、菠菜、橙子等可以疏通经络，改善血液循环，减轻腿部的沉重感。 1、在静脉曲张的饮食中新鲜蔬菜和水果不能少：新鲜蔬菜和水果含有大量的维生素及矿物质，可以改善组织的氧化作用，增加血液循环，提高机体免疫力。如新鲜水果中含有大量维生素 C ，可以通过降低血凝倾向，改善血液循环，促进康复，预防淤伤。新鲜蔬菜含有丰富纤维素，能避免便秘，保持肠道清洁，改善肛周围的血液循环，预防末梢静脉曲张和痔疮的形成。 2、要有足够的蛋白质：静脉曲张的饮食中要多含蛋白质丰富的食物，如鱼、牛、羊肉等，大豆以及豆制品也含有丰富的植物蛋白，也应多吃。充足的蛋白质可以维持体内所有营养物质的平衡，增强免疫力，保护细胞，还可以乳化脂肪，促进血液循环。 3、含维生素 E 丰富的食物：静脉曲张的饮食要多含维生素E的食物，可以改善血液循环，减轻腿部的沉重感。含维生素 E 丰富的食物有：洋白菜、菠菜、甘蓝、麦芽、坚果类、大豆、全麦、粗粮、蛋等都是静脉曲张的饮食注意事项。 如何预防预防的扎6招防小腿静脉曲张 睡前抬腿久站抬脚尖 1. 睡前抬腿 2. 久站抬脚尖静脉曲张的成因是静脉瓣膜功能不良，静脉血液向下逆流而形成静脉曲张。因此，站立时，要每隔一段时间就抬脚尖，让肌肉收缩，给静脉血液加压，让血液往心脏方向流动，致使静脉瓣膜打开维持正常功能。一般来说，小腿感到酸麻时，就是在提醒你要抬脚尖了。 3. 穿平跟鞋平跟鞋有助于预防静脉曲张，在体育锻炼时一定要穿有海绵垫的运动鞋或旅游鞋，对缓解腿部压力，预防静脉曲张很有帮助。 4. 赤足在条件允许的情况下，下班回家后，将鞋脱掉，赤足或穿拖鞋行走，可以改善足部血液循环，并使足部肌肉得到锻炼。 5. 抬高下肢站立工作者在工间休息时，宜将鞋脱掉，双脚抬高，足部要高于心脏30厘米以上，下班回到家中后也应将双脚抬高15分钟，缓解血液对下肢的压力。 6. 改掉不良如厕习惯在上厕所时看书报，这是很不好的生活习惯。上厕所时看书报，蹲踞时间长会给下肢静脉增加过多的负担，造成血管内滞血，因此这种习惯一定要改掉。 装备:1. 弹力袜子使用 起床穿。 睡觉不穿。 半年换。最好三个月，看物料和生活习惯。因为弹性会不断下降，没弹性等于没压力，所以穿鬆了就要换。 手洗＋不晒太阳＋摊乾＋不用化学清洗剂(柔顺／漂白)可以让弹性保持久一点，这个就看自己勤不勤快了。 最重要的一点，运动。简单说就是让下肢肌肉更好的泵血，更好的把血从下肢输送回心脏，另外也可以避免和减少长期穿压力袜后依赖和股肉无力的情况。 选择型号 根据穿者的腿部症状选择合适的静脉曲张袜压力。静脉曲张袜分为以下几级压力：一级低压预防保健型(15-25mmHg)：适用于静脉曲张、血栓高发人群的保健预防;一级中压初期治疗型(25-30mmHg)：适用于静脉曲张初期患者;二级高压中度治疗型(30-40mmHg)：适用于下肢已经有明显的静脉曲张(站立时静脉血管凸出皮肤表面)，并伴有腿部不适感的患者(如下肢酸乏肿胀、湿疹瘙痒、抽筋发麻、色素沉着等)、静脉炎、怀孕期间严重静脉曲张、静脉曲张手术后(大小隐静脉剥脱术)患者、深静脉血栓形成后综合症患者;三级高压重度治疗型(40-50mmHg)：适用于下肢高度肿胀、溃疡、皮肤变黑变硬、高度淋巴水肿、整形抽脂术后恢复期等患者。 根据病变部位选择静脉曲张袜的长度。中统袜(膝下)、长统袜(及大腿)、连裤袜(及腰部)。如果穿者只是膝盖以下的部位患有静脉曲张，穿中统静脉曲张袜即可;如果穿者膝盖以上的部位也有症状、需要穿长统的或者连裤型静脉曲张袜。 确定合适的号型(静脉曲张袜分为小号S、中号M、大号L、加大号XL)。量出穿者腿部的三个主要尺寸(厘米)：脚踝(脚脖子最细处)周长、小腿肚最大周长及大腿最大周长，以确定合适的号码，购买连裤袜要根据穿者的身高体重选择号码。 注意: 如何判断自己的静脉曲张严重程度国际上，静脉曲张按照程度不同共分为0-6期： c1: 表层血管像蚯蚓一样曲张，明显凸出皮肤，曲张呈团状或结节状，有毛细血管扩张、网状静脉、踝部潮红。c2: 在站立时腿部可见弯曲增粗的表浅静脉血管，高出皮肤，在腿部抬高或平卧后可消失，常有小腿酸胀、易疲劳等不适感觉，此期是治疗的较好时期。c3: 曲张血管增多，小腿开始出现水肿，以站立过久或劳累后较明显，晨起时水肿可消退。患肢常比对侧腿增粗，有些人还出现皮肤瘙痒，严重者呈现湿疹、瘀积性皮炎等皮肤病变。c4: 血管内血液瘀积过多，静脉压力明显增高，使一部分血液成分渗透至血管外的皮肤及皮下组织，造成局部皮肤发红，变紫，直至发黑(血中铁元素沉积)，并且失去弹性而变硬。c5: 已发展为急性溃疡期，发黑变硬的皮肤在外力作用下发生破溃，采用普通方法已很难康复，严重影响工作与生活。c6: 静脉曲张晚期，或未经正确治疗的静脉性溃疡反复发作，形成臁疮腿，常见于踝关节附近及小腿下段，俗称“老烂腿”。 一级压力裤: c1 二级压力裤: c2-c4 三级压力裤: c4*c6 去哪里买 国内压力袜是属于医疗器械，不是哪都可以卖的，如果不是正规的地方卖的，大概率不是真的 上外国网站自己买，因为国内压力袜是属于医疗器械，如果有代购或是什麽海淘，如果不是正规的医疗器械卖家，性质像偷卖外国药一样。 排行版]]></content>
+      <categories>
+        <category>健康</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Closed balcony]]></title>
+    <url>%2FClosed-balcony%2F</url>
+    <content type="text"><![CDATA[概述一般封闭烟台由三部分构成 框窗:建议安装有框 气密窗，最好是经过抗压性、气密性（刮风的时候不会有灰尘钻进来）和水密性（下雨的时候不会有水流到室内）检验的。 注意： 气密性能: 120等级、30等级、8等级、2等级影响因素: 窗户框扇的搭接处、气密防水胶条和毛刷条长度、内扇窗的气密橡胶条与内扇下支长度，毛刷条的完整性，玻璃压条与玻璃长度 玻璃 钢化玻璃隔音保温表现更好的双层中空玻璃 防护栏 框窗框窗类型有很多，铝合金门窗、实木窗、铝木复合窗、玻璃钢门窗、不锈钢门窗、无框窗 塑钢门窗优点是隔音、隔热防火保温，气密性、水密、防腐都不错，而且价格便宜。缺点是它的断面较大，比起铝合金窗来说采光性略差。 铝合金门窗优点: 硬度高，不易刮伤，耐磨耐候，表面光滑，耐污性佳便于清洁。而且价格便宜。缺点: 是导热性强，保温性差。 断桥铝合金优点: 结合上面两种缺点: 最贵 -玻璃门窗（也叫无框窗）优点:采光性良好、空气流通好、美观易折叠等。缺点:保温性差，密封性差，隔音一般。 价格塑钢窗的价格塑钢窗主材价格:每种品牌的塑钢窗主材价格不同,如海螺型材现在的价格是10500元/吨,每吨的出窗率要看窗的型号,88推拉窗估计能出95-100平米,80的推拉窗能出100-105平米,60平开窗能出70-75平米左右,按面积计算,也就是88的型材成本价格为110-105元,80的型材成本价格为105-100元,60的型材成本合到150-140元。 塑钢窗五金配件价格:推拉窗要用到的滑轮和月牙锁,这两个加起来的价格为8元/平米,还有就是密封毛条和减震胶条,加起来价格为10元/平米,再就是制作和安装要30元/平米,另外运输要4元/平米。 塑钢窗加强钢价格:主材里要有加强钢,市场价格是4000左右/吨,如果用的是1.2的话要成本20元左右,低于这个标准的1.0以下的可能有12元左右就可以了。 塑钢窗玻璃价格:市场上的玻璃有浮法、格法、平板等几种,浮法的5毫米的玻璃价格30元,格法的24元,平板的19元。如果用中空玻璃的话,除了加一层玻璃的钱还要用到铝合金的框架和干燥外围的中空胶,这些的成本价格是10-15元。 塑钢窗密封处理价格:主要是打泡沫胶和密封胶,价格要看窗台的平整情况,好的窗台有5元/米就可以,旧的窗台由于拆旧窗的破坏会用到12元/米左右。 88推拉窗 110 型材+五金8+配件10+制作安装30+20加强钢+玻璃30+运输4=212元/平米。 80推拉窗 105型材+五金8+配件10+制作安装30+20加强钢+玻璃30+运输4=207元/平米。 60平开窗 150型材+五38+配件10+制作安装30+20加强钢+玻璃30+运输4=284元/平米。 铝合金窗的价格铝合金普通推拉窗的价格在250元/平方米左右,采用1.2mm厚标准铝型材,单片5mm玻璃;铝合金隔音隔热窗750元/平方米左右,采用1.4厚铝型材,中空玻璃。 铝合金窗主材价格差别很大,铝材的价格主要差别在铝材的质量上,有厚薄优劣之分,一般氧化铝材160元/平米,电泳铝材200元/平方左右,彩色铝材260元/平米以上。铝型材质有50系列、55系列、60系列、70系列等,其中50系列的铝材价格在400元/平米左右,而70系列铝材价格可达到700元/平米,不同系列的铝材质厚度不一样,铝材越厚的窗户价格越高。 以上是塑钢窗和铝合金窗的价格介绍,塑钢窗因为用得比较多,大家对它的价格很熟悉。铝合金窗低档的没人愿意用,宁可用塑钢窗代替,高档铝合金窗价格又很高,常用于施工要求较高的建筑或高档建筑。]]></content>
+      <categories>
+        <category>家庭装修</category>
+      </categories>
+      <tags>
+        <tag>阳台</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[python笔记]]></title>
+    <url>%2Fpython-notes%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[在vscode jupyter模式下工作]]></title>
+    <url>%2Fwork-in-vscode-with-jupyter%2F</url>
+    <content type="text"><![CDATA[概述使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。 1234567891011#! /usr/bin/env pythonimport sysimport itertoolsfor markdown, lines in itertools.groupby(open(sys.argv[1]).readlines(), key=lambda line: line.startswith('# ')): if markdown: print(''.join(line[2:] for line in lines)) else: print('\n```python') print(''.join(lines).strip()) print('```\n') 写的过程中需要注意的几点: 文档直接用＃ 隔开，并且不要留有空格# # 文档直接用＃ 隔开，并且不要留有空格 标题上下用# ， 看起来更清晰## ####我是标题# python文档的代码用＃％％是表示执行cell的#%%python文档的代码用＃％％是表示执行cell的 输出结果用不带空格的#表示#输出 使用vscode 的tasks可以快速的执行python命令添加任务的做法可见vscode 文档 更新vscode 下安装的插件 github]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+        <tag>jupyter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[notes-python]]></title>
+    <url>%2Fnotes-python%2F</url>
+    <content type="text"><![CDATA[概述中文 Python 笔记这是个学习python的好资料,用神器jupyter写的。而我的目的是jupyter来阅读不如用docsify阅读来的方便， 幸运的是作者已经写了个脚本，用这个脚本可以快速的转换,所以我做了写修改，直接生成md文件。 下载 1git clone https://github.com/lijin-THU/notes-python.git 生成md文件 1python generate_static_files.py 提交到note-python的docs的docs文件,并设为个人博客的子目录 个人博客创建 notes-python文档 ab abc 你好吗这是一个我很好 概述 你好吗 这是一个 我很好]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[一些神奇的工具使用笔记]]></title>
+    <url>%2Fyoutube-dl%2F</url>
+    <content type="text"><![CDATA[youtube-dl概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载字幕.使用这个的前提是你得翻墙。 安装1pip install --upgrade youtube-dl 常用命令youtube-dl有很多参数，我就不一一介绍。运行youtube -h可以查看所有命令,这里列出我用到的一些命令: 注意:由于众所周知的原因，使用之前需要下载proxychains,1sudo apt-get install proxychains 安装proxychains,需要修改/etc/proxychains配置最后一行12# socks4 127.0.0.1 9050socks5 127.0.0.1 1080 1080是你翻墙的端口 1proxychains youtube-dl --write-sub --sub-lang en --skip-download -o "%(playlist_index)s-%(title)s.%(ext)s" "https://www.youtube.com/watch?v=2S4nn7S8Hk4&amp;list=PLAwxTw4SYaPnbDacyrK_kB_RUkuxQBlCm" 选项的解释 –write-sub: 写到字幕文件 –sub-lang: 下载语言 –skip-download: 不下载视频 -o “%(playlist_index)s-%(title)s.%(ext)s” : 使用编号加标题 notedownnotedown主要是用来实现md to ipynb，这样我就可以直接一边写博客一边调试代码。使用方法如下: 安装: 1pip install https://github.com/aaren/notedown/tarball/master 打开文件: 1sudo gedit ~/.jupyter/jupyter_notebook_config.py ` 增加以下内容，存盘 c.NotebookApp.contents_manager_class = ‘notedown.NotedownContentsManager’ 重启jupyter notebook 服务]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>youtube-dl</tag>
+        <tag>proxychains</tag>
+        <tag>notedown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[计算机视觉入门]]></title>
+    <url>%2FIntroduction-to-Computer-Vision%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>udacity</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[打造Hexo个人博客中遇到的坑]]></title>
+    <url>%2Fhexo-note%2F</url>
+    <content type="text"><![CDATA[经历了几天的努力，终于解决了几个重大问题，打造出自己理想的博客个人网站。主要是参照大黄菌的个人博客,但是她没有公布使用如何使用hexo跳转到docsify的步骤。现在把我这几天填过的坑记下来。 首先说下我的需求: hexo作博客,next作主题. 可以自动跳转到docsify文档的界面. 使用个人域名 hexo作博客,next作主题hexo作博客使用hexo构建博客主要是参照hexo的官方文档.以下是构建的步骤: 开始使用 概述: 安装: post_asset_folder: true 注意: npm 必须使用sudo 建站: npm install这条指令有什么用 package.json 的文档内容现在有不明白有什么用 scaffolds: 默认post,draft是草稿模板，page是页面模板，当你使用tag,category的时候用到，后面会讲到 source: _文件隐藏，Markdown,html解析，其他拷贝过去。如拷贝CNAME themes:主题，next就是拷贝到这里的 配置: 网站: title ,就是浏览器标签栏的名字，subtitle 网页显示的Hexo首页的地方. 注意：必须hexo serve重启才能生效 网址: 网站存放在子目录,目前不用 目录: 目前不用 文章: titlecase指的是将每个单词首字母转换成大写,post_asset_folder: true 分类 &amp; 标签: 不用到 日期 / 时间格式: 不用到 分页 不用到: 扩展: theme: ,现在不用，但是后面改为next要回来改 deploy 最好现在就布置，自动发布到github,之前没有看到这个选项，手动发布. 注意: 这是我的设置type: gitrepo: git@github.com:lsy563193/lsy563193.github.io.gitbranch: master 指令: init, new, generate, deploy, publish ,server 注意:hexo g -d, hexo d -g 通常用,一样的hexo serve 也是可以简写为hexo s的，不用加路径，常用 迁移 基本操作 写作 Front-matter开启了 comments 评论功能 预先定义的参数 分类和标签 注意:categories: Diary Life会使分类Life成为Diary的子分类 标签插件在markdown 中添加太多的hexo 标签，其实会在以后用其他编辑器预览，查看，迁移时留下诸多不变，毕竟，私有的语法意味着不兼容 资源文件夹资源（Asset）代表 source 文件夹中除了文章以外的所有文件，例如图片、CSS、JS 文件等。 数据文件 服务器 生成器 部署自定义 永久链接 可以自动跳转到docsify文档的界面实现的方式是使用域名覆盖。以链接到吴恩达《深度学习》系列课程笔记,为例,网址为http://lsy563193/github.io/Andrew-Ng-Deep-Learning-notes/ ,我们只要让page的网址也为这个，这样在点击的时候就自动替换为 Andrew-Ng-Deep-Learning-notes的内容实现的步骤如下: 克隆:克隆Andrew-Ng-Deep-Learning-notes到你的github目录， 设置为github.io的doc目录: 把这个项目设置为你博客下的目录 把hexo生成的地址也设置为这个: 首先创建Andrew-Ng-Deep-Learning-notes的博文 1hexo new Andrew-Ng-Deep-Learning-notes 设置category,比如为深度学习笔记,效果如下 设置_config.yml的permalink: :title/: 这样两者的地址就一样的 Hexo-Next-主题优化参考 浏览页面的时候显示当前浏览进度_config.yml scrollpercent 开启版权声明主题配置文件下,搜索关键字post_copyright,enable改为true 主题]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
