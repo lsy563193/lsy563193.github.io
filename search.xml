@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[build-my-robot]]></title>
+    <url>%2Fbuild-my-robot%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>一步一步构建自己的机器人</category>
+      </categories>
+      <tags>
+        <tag>ros robot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[开机安装]]></title>
     <url>%2Flinux-config%2F</url>
     <content type="text"><![CDATA[安装ssl安装 gitsudo apt-get install gitgit config –global user.email “you@example.com“git config –global user.name “Your Name” 安装 Node.jswget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shexport NVM_DIR=”$HOME/.nvm”[ -s “$NVM_DIR/nvm.sh” ] &amp;&amp; . “$NVM_DIR/nvm.sh”nvm install stable 安装 Hexonpm install -g hexo-clinpm install hexo –save tmuxsudo apt-get install tmux 设置shell为zshrcsudo apt-get install zshchsh -s /bin/zshwget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh 切换caps to ctrlecho “setxkbmap -layout us -option ctrl:nocaps” &gt;&gt; ~/.zshrc 模糊搜索神器fzfgit clone –depth 1 https://github.com/junegunn/fzf.git ~/.fzf~/.fzf/installsource ~/.zshrc autojumpgit clone git://github.com/joelthelion/autojump.git ~/.autojump~cd ~/.autojump~./install.py[[ -s /home/syue/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /home/syue/.autojump/etc/profile.d/autojump.shautoload -U compinit &amp;&amp; compinit -u install rossudo sh -c ‘echo “deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main” &gt; /etc/apt/sources.list.d/ros-latest.list’sudo apt-key adv –keyserver hkp://ha.pool.sks-keyservers.net:80 –recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116sudo apt-get updatesudo apt-get install ros-kinetic-desktop-fullapt-cache search ros-kineticsudo rosdep initrosdep updateecho “source /opt/ros/kinetic/setup.zsh” &gt;&gt; ~/.zshrcsource ~/.zshrcsource /opt/ros/kinetic/setup.zsh]]></content>

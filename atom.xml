@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lsy563193.github.io/"/>
-  <updated>2018-08-01T07:48:03.592Z</updated>
+  <updated>2018-08-02T02:21:20.202Z</updated>
   <id>http://lsy563193.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>build-my-robot</title>
+    <link href="http://lsy563193.github.io/build-my-robot/"/>
+    <id>http://lsy563193.github.io/build-my-robot/</id>
+    <published>2018-08-02T02:19:04.000Z</published>
+    <updated>2018-08-02T02:21:20.202Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="一步一步构建自己的机器人" scheme="http://lsy563193.github.io/categories/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+    
+      <category term="ros robot" scheme="http://lsy563193.github.io/tags/ros-robot/"/>
+    
+  </entry>
   
   <entry>
     <title>开机安装</title>
