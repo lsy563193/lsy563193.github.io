@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[cartographer源码解析]]></title>
+    <url>%2Fcartographer%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>cartographer</category>
+      </categories>
+      <tags>
+        <tag>slam 激光 cartographer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[安装docker的的ros]]></title>
+    <url>%2Fros-docker%2F</url>
+    <content type="text"><![CDATA[1.安装docker过程https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html 2.使用 Dockerfile 定制镜像dockerfile123456789FROM osrf/ros:indigo-desktop-full# # ARG ros_ip=172.117.0.1ARG ros_ip=192.168.0.1ENV ROS_IP=$&#123;ros_ip&#125; ENV ROS_MASTER_URI=http://$&#123;ros_ip&#125;:11311COPY ./sources.list /etc/apt/sources.list# RUN apt-get update]]></content>
+      <categories>
+        <category>ros</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>ros</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[build-my-robot]]></title>
     <url>%2Fbuild-my-robot%2F</url>
     <content type="text"></content>

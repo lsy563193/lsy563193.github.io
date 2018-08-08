@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lsy563193.github.io/"/>
-  <updated>2018-08-02T02:21:20.202Z</updated>
+  <updated>2018-08-08T11:44:09.850Z</updated>
   <id>http://lsy563193.github.io/</id>
   
   <author>
@@ -17,11 +17,56 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>cartographer源码解析</title>
+    <link href="http://lsy563193.github.io/cartographer/"/>
+    <id>http://lsy563193.github.io/cartographer/</id>
+    <published>2018-08-08T11:43:14.000Z</published>
+    <updated>2018-08-08T11:44:09.850Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="cartographer" scheme="http://lsy563193.github.io/categories/cartographer/"/>
+    
+    
+      <category term="slam 激光 cartographer" scheme="http://lsy563193.github.io/tags/slam-%E6%BF%80%E5%85%89-cartographer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装docker的的ros</title>
+    <link href="http://lsy563193.github.io/ros-docker/"/>
+    <id>http://lsy563193.github.io/ros-docker/</id>
+    <published>2018-08-07T03:03:04.000Z</published>
+    <updated>2018-08-07T03:12:43.789Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-安装docker过程"><a href="#1-安装docker过程" class="headerlink" title="1.安装docker过程"></a>1.安装docker过程</h2><pre><code>https://yeasy.gitbooks.io/docker_practice/install/ubuntu.html</code></pre><h2 id="2-使用-Dockerfile-定制镜像"><a href="#2-使用-Dockerfile-定制镜像" class="headerlink" title="2.使用 Dockerfile 定制镜像"></a>2.使用 Dockerfile 定制镜像</h2><p>dockerfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM osrf/ros:indigo-desktop-full</span><br><span class="line"></span><br><span class="line"># # ARG ros_ip=172.117.0.1</span><br><span class="line">ARG ros_ip=192.168.0.1</span><br><span class="line">ENV ROS_IP=$&#123;ros_ip&#125;  </span><br><span class="line">ENV ROS_MASTER_URI=http://$&#123;ros_ip&#125;:11311</span><br><span class="line">COPY ./sources.list /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line"># RUN  apt-get update</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;1-安装docker过程&quot;&gt;&lt;a href=&quot;#1-安装docker过程&quot; class=&quot;headerlink&quot; title=&quot;1.安装docker过程&quot;&gt;&lt;/a&gt;1.安装docker过程&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;https://yeasy.gitbooks
+      
+    
+    </summary>
+    
+      <category term="ros" scheme="http://lsy563193.github.io/categories/ros/"/>
+    
+    
+      <category term="docker" scheme="http://lsy563193.github.io/tags/docker/"/>
+    
+      <category term="ros" scheme="http://lsy563193.github.io/tags/ros/"/>
+    
+  </entry>
+  
+  <entry>
     <title>build-my-robot</title>
     <link href="http://lsy563193.github.io/build-my-robot/"/>
     <id>http://lsy563193.github.io/build-my-robot/</id>
     <published>2018-08-02T02:19:04.000Z</published>
-    <updated>2018-08-02T02:21:20.202Z</updated>
+    <updated>2018-08-02T02:36:03.717Z</updated>
     
     <summary type="html">
     
