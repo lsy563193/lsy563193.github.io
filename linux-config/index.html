@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="林少岳的博客">
 <meta property="og:description" content="安装ssl安装 gitsudo apt-get install gitgit config –global user.email “you@example.com“git config –global user.name “Your Name” 安装 Node.jswget -qO- https://raw.github.com/creationix/nvm/master/install.sh |">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-01T07:48:03.592Z">
+<meta property="og:updated_time" content="2018-10-17T04:10:00.360Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开机安装">
 <meta name="twitter:description" content="安装ssl安装 gitsudo apt-get install gitgit config –global user.email “you@example.com“git config –global user.name “Your Name” 安装 Node.jswget -qO- https://raw.github.com/creationix/nvm/master/install.sh |">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  251
+                  260
                 </span>
               
 
@@ -423,9 +423,10 @@
         <h3 id="安装ssl"><a href="#安装ssl" class="headerlink" title="安装ssl"></a>安装ssl</h3><h3 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h3><p>sudo apt-get install git<br>git config –global user.email “<a href="mailto:you@example.com" target="_blank" rel="noopener">you@example.com</a>“<br>git config –global user.name “Your Name”</p>
 <h3 id="安装-Node-js"><a href="#安装-Node-js" class="headerlink" title="安装 Node.js"></a>安装 Node.js</h3><p>wget -qO- <a href="https://raw.github.com/creationix/nvm/master/install.sh" target="_blank" rel="noopener">https://raw.github.com/creationix/nvm/master/install.sh</a> | sh<br>export NVM_DIR=”$HOME/.nvm”<br>[ -s “$NVM_DIR/nvm.sh” ] &amp;&amp; . “$NVM_DIR/nvm.sh”<br>nvm install stable</p>
 <h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><p>npm install -g hexo-cli<br>npm install hexo –save</p>
-<h3 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h3><p>sudo apt-get install tmux</p>
-<h3 id="设置shell为zshrc"><a href="#设置shell为zshrc" class="headerlink" title="设置shell为zshrc"></a>设置shell为zshrc</h3><p>sudo apt-get install zsh<br>chsh -s /bin/zsh<br><!-- 安装oh my zsh --><br>wget <a href="https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh</a> -O - | sh</p>
-<h3 id="切换caps-to-ctrl"><a href="#切换caps-to-ctrl" class="headerlink" title="切换caps to ctrl"></a>切换caps to ctrl</h3><p>echo “setxkbmap -layout us -option ctrl:nocaps” &gt;&gt; ~/.zshrc</p>
+<h3 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h3><p>sudo apt-get install tmux -y</p>
+<h3 id="设置shell为zshrc"><a href="#设置shell为zshrc" class="headerlink" title="设置shell为zshrc"></a>设置shell为zshrc</h3><p>sudo apt-get install zsh -y<br>chsh -s /bin/zsh</p>
+<h3 id="安装oh-my-zsh"><a href="#安装oh-my-zsh" class="headerlink" title="安装oh my zsh"></a>安装oh my zsh</h3><p>wget <a href="https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh</a> -O - | sh</p>
+<h3 id="切换caps-to-ctrl"><a href="#切换caps-to-ctrl" class="headerlink" title="切换caps to ctrl"></a>切换caps to ctrl</h3><p>echo “setxkbmap -layout us -option ctrl:nocaps” &gt;&gt; ~/.zshrc<br>source ~/.zshrc</p>
 <h3 id="模糊搜索神器fzf"><a href="#模糊搜索神器fzf" class="headerlink" title="模糊搜索神器fzf"></a>模糊搜索神器fzf</h3><p>git clone –depth 1 <a href="https://github.com/junegunn/fzf.git" target="_blank" rel="noopener">https://github.com/junegunn/fzf.git</a> ~/.fzf<br>~/.fzf/install<br>source ~/.zshrc</p>
 <h3 id="autojump"><a href="#autojump" class="headerlink" title="autojump"></a>autojump</h3><p>git clone git://github.com/joelthelion/autojump.git ~/.autojump~<br>cd ~/.autojump~<br>./install.py<br>[[ -s /home/syue/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /home/syue/.autojump/etc/profile.d/autojump.sh<br>autoload -U compinit &amp;&amp; compinit -u</p>
 <h3 id="install-ros"><a href="#install-ros" class="headerlink" title="install ros"></a>install ros</h3><p>sudo sh -c ‘echo “deb <a href="http://packages.ros.org/ros/ubuntu" target="_blank" rel="noopener">http://packages.ros.org/ros/ubuntu</a> $(lsb_release -sc) main” &gt; /etc/apt/sources.list.d/ros-latest.list’<br>sudo apt-key adv –keyserver hkp://ha.pool.sks-keyservers.net:80 –recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116<br>sudo apt-get update<br>sudo apt-get install ros-kinetic-desktop-full<br>apt-cache search ros-kinetic<br>sudo rosdep init<br>rosdep update<br>echo “source /opt/ros/kinetic/setup.zsh” &gt;&gt; ~/.zshrc<br>source ~/.zshrc<br>source /opt/ros/kinetic/setup.zsh</p>
@@ -570,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -666,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装ssl"><span class="nav-number">1.</span> <span class="nav-text">安装ssl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-git"><span class="nav-number">2.</span> <span class="nav-text">安装 git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-js"><span class="nav-number">3.</span> <span class="nav-text">安装 Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Hexo"><span class="nav-number">4.</span> <span class="nav-text">安装 Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tmux"><span class="nav-number">5.</span> <span class="nav-text">tmux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置shell为zshrc"><span class="nav-number">6.</span> <span class="nav-text">设置shell为zshrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换caps-to-ctrl"><span class="nav-number">7.</span> <span class="nav-text">切换caps to ctrl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模糊搜索神器fzf"><span class="nav-number">8.</span> <span class="nav-text">模糊搜索神器fzf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autojump"><span class="nav-number">9.</span> <span class="nav-text">autojump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-ros"><span class="nav-number">10.</span> <span class="nav-text">install ros</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装ssl"><span class="nav-number">1.</span> <span class="nav-text">安装ssl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-git"><span class="nav-number">2.</span> <span class="nav-text">安装 git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-js"><span class="nav-number">3.</span> <span class="nav-text">安装 Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Hexo"><span class="nav-number">4.</span> <span class="nav-text">安装 Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tmux"><span class="nav-number">5.</span> <span class="nav-text">tmux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置shell为zshrc"><span class="nav-number">6.</span> <span class="nav-text">设置shell为zshrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装oh-my-zsh"><span class="nav-number">7.</span> <span class="nav-text">安装oh my zsh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换caps-to-ctrl"><span class="nav-number">8.</span> <span class="nav-text">切换caps to ctrl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模糊搜索神器fzf"><span class="nav-number">9.</span> <span class="nav-text">模糊搜索神器fzf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autojump"><span class="nav-number">10.</span> <span class="nav-text">autojump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-ros"><span class="nav-number">11.</span> <span class="nav-text">install ros</span></a></li></ol></div>
             
 
           </div>
