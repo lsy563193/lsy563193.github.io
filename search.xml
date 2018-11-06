@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[graph slam ceres 实现]]></title>
+    <url>%2Fslam-GraphSLAM-ceres%2F</url>
+    <content type="text"><![CDATA[本文是graph-slam 理论部分: ceres的实现部分 e = (x_0)^2 + (x_1 - x_0 - 1)^2 + (l_0 - x_0 - 2)^2 + (l_0 - x_1 - 0.8)^2123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107#include &lt;vector&gt;#include &lt;iomanip&gt;#include "ceres/ceres.h"#include "gflags/gflags.h"#include "glog/logging.h"using ceres::AutoDiffCostFunction;using ceres::CostFunction;using ceres::Problem;using ceres::Solver;using ceres::Solve;struct F1 &#123; template &lt;typename T&gt; bool operator()(const T* const x1, const T* const x2, T* residual) const &#123; // f1 = x0; residual[0] = x1[0]; return true; &#125;&#125;;struct F2 &#123; template &lt;typename T&gt; bool operator()(const T* const x1, const T* const x0, T* residual) const &#123; // f2 = (x1 - x0 -1.0) residual[0] = x1[0] - x0[0] - 1.0; return true; &#125;&#125;;struct F3 &#123; template &lt;typename T&gt; bool operator()(const T* const l0, const T* const x0, T* residual) const &#123; // f3 = l0 - x0 - 2.0 residual[0] = l0[0] - x0[0] - 2.0; return true; &#125;&#125;;struct F4 &#123; template &lt;typename T&gt; bool operator()(const T* const l0, const T* const x1, T* residual) const &#123; // f4 = lo - x1 - 0.8 residual[0] = l0[0] - x1[0] - 0.8; return true; &#125;&#125;;DEFINE_string(minimizer, "trust_region", "Minimizer type to use, choices are: line_search &amp; trust_region");int main(int argc, char** argv) &#123; CERES_GFLAGS_NAMESPACE::ParseCommandLineFlags(&amp;argc, &amp;argv, true); google::InitGoogleLogging(argv[0]); double x0 = 0.0; double x1 = 1.0; double l0 = 2.0;// double x4 = 1.0; Problem problem; // Add residual terms to the problem using the using the autodiff // wrapper to get the derivatives automatically. The parameters, x0 through // x4, are modified in place. problem.AddResidualBlock(new AutoDiffCostFunction&lt;F1, 1, 1, 1&gt;(new F1), NULL, &amp;x0, &amp;x1); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F2, 1, 1, 1&gt;(new F2), NULL, &amp;x1, &amp;x0); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F3, 1, 1, 1&gt;(new F3), NULL, &amp;l0, &amp;x0); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F4, 1, 1, 1&gt;(new F4), NULL, &amp;l0, &amp;x1); Solver::Options options; LOG_IF(FATAL, !ceres::StringToMinimizerType(FLAGS_minimizer, &amp;options.minimizer_type)) &lt;&lt; "Invalid minimizer: " &lt;&lt; FLAGS_minimizer &lt;&lt; ", valid options are: trust_region and line_search."; options.max_num_iterations = 100; options.linear_solver_type = ceres::DENSE_QR; options.minimizer_progress_to_stdout = true; std::cout &lt;&lt; "Initial x0 = " &lt;&lt; std::setprecision(4)&lt;&lt; x0 &lt;&lt; ", x1 = " &lt;&lt; x1 &lt;&lt; ", l0 = " &lt;&lt; l0 &lt;&lt; "\n"; // Run the solver! Solver::Summary summary; Solve(options, &amp;problem, &amp;summary); std::cout &lt;&lt; summary.FullReport() &lt;&lt; "\n"; std::cout &lt;&lt; "Final x0 = " &lt;&lt; x0 &lt;&lt; ", x1 = " &lt;&lt; x1 &lt;&lt; ", l0 = " &lt;&lt; l0 &lt;&lt; "\n"; return 0;&#125; ceres-solver官网]]></content>
+      <categories>
+        <category>slam技术</category>
+      </categories>
+      <tags>
+        <tag>cartographer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[graph slam 理论]]></title>
+    <url>%2Fslam-GraphSLAM-%E7%90%86%E8%AE%BA%2F</url>
+    <content type="text"><![CDATA[什么是graph slam推导过程矩阵裁简参考udacity ai-for robots 系列视频306到332 graph slam tutorial : 从推导到应用1 深入理解图优化与g2o：图优化篇 Cartographer的原理探究——GraphSLAM理论基础]]></content>
+      <categories>
+        <category>slam技术</category>
+      </categories>
+      <tags>
+        <tag>cartographer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>%2Fgraph_slam%2F</url>
     <content type="text"><![CDATA[@startuml概率图 —&gt; 因子图 :slam概率图 —&gt; 贝叶斯网络 :机器学习概率图 —&gt; 马尔克夫随机场:机器学习class 因子图 { 可以用公式表达不同的问题 }因子图 —&gt; 非线性因子图因子图 —&gt; 线性因子图非线性因子图 { //非线性优化技巧: 反复求解大型稀疏性系统 }@enduml]]></content>
@@ -51,28 +73,6 @@
     <title><![CDATA[cartographer源码解析]]></title>
     <url>%2Fslam-cartographer-notes%2F</url>
     <content type="text"></content>
-      <categories>
-        <category>slam技术</category>
-      </categories>
-      <tags>
-        <tag>cartographer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[graph slam 理论]]></title>
-    <url>%2Fslam-GraphSLAM-%E7%90%86%E8%AE%BA%2F</url>
-    <content type="text"><![CDATA[什么是graph slam推导过程矩阵裁简参考udacity ai-for robots 系列视频306到332 graph slam tutorial : 从推导到应用1 深入理解图优化与g2o：图优化篇 Cartographer的原理探究——GraphSLAM理论基础]]></content>
-      <categories>
-        <category>slam技术</category>
-      </categories>
-      <tags>
-        <tag>cartographer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[graph slam ceres 实现]]></title>
-    <url>%2Fslam-GraphSLAM-ceres%2F</url>
-    <content type="text"><![CDATA[本文是graph-slam 理论部分: ceres的实现部分 e = (x_0)^2 + (x_1 - x_0 - 1)^2 + (l_0 - x_0 - 2)^2 + (l_0 - x_1 - 0.8)^2123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107#include &lt;vector&gt;#include &lt;iomanip&gt;#include "ceres/ceres.h"#include "gflags/gflags.h"#include "glog/logging.h"using ceres::AutoDiffCostFunction;using ceres::CostFunction;using ceres::Problem;using ceres::Solver;using ceres::Solve;struct F1 &#123; template &lt;typename T&gt; bool operator()(const T* const x1, const T* const x2, T* residual) const &#123; // f1 = x0; residual[0] = x1[0]; return true; &#125;&#125;;struct F2 &#123; template &lt;typename T&gt; bool operator()(const T* const x1, const T* const x0, T* residual) const &#123; // f2 = (x1 - x0 -1.0) residual[0] = x1[0] - x0[0] - 1.0; return true; &#125;&#125;;struct F3 &#123; template &lt;typename T&gt; bool operator()(const T* const l0, const T* const x0, T* residual) const &#123; // f3 = l0 - x0 - 2.0 residual[0] = l0[0] - x0[0] - 2.0; return true; &#125;&#125;;struct F4 &#123; template &lt;typename T&gt; bool operator()(const T* const l0, const T* const x1, T* residual) const &#123; // f4 = lo - x1 - 0.8 residual[0] = l0[0] - x1[0] - 0.8; return true; &#125;&#125;;DEFINE_string(minimizer, "trust_region", "Minimizer type to use, choices are: line_search &amp; trust_region");int main(int argc, char** argv) &#123; CERES_GFLAGS_NAMESPACE::ParseCommandLineFlags(&amp;argc, &amp;argv, true); google::InitGoogleLogging(argv[0]); double x0 = 0.0; double x1 = 1.0; double l0 = 2.0;// double x4 = 1.0; Problem problem; // Add residual terms to the problem using the using the autodiff // wrapper to get the derivatives automatically. The parameters, x0 through // x4, are modified in place. problem.AddResidualBlock(new AutoDiffCostFunction&lt;F1, 1, 1, 1&gt;(new F1), NULL, &amp;x0, &amp;x1); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F2, 1, 1, 1&gt;(new F2), NULL, &amp;x1, &amp;x0); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F3, 1, 1, 1&gt;(new F3), NULL, &amp;l0, &amp;x0); problem.AddResidualBlock(new AutoDiffCostFunction&lt;F4, 1, 1, 1&gt;(new F4), NULL, &amp;l0, &amp;x1); Solver::Options options; LOG_IF(FATAL, !ceres::StringToMinimizerType(FLAGS_minimizer, &amp;options.minimizer_type)) &lt;&lt; "Invalid minimizer: " &lt;&lt; FLAGS_minimizer &lt;&lt; ", valid options are: trust_region and line_search."; options.max_num_iterations = 100; options.linear_solver_type = ceres::DENSE_QR; options.minimizer_progress_to_stdout = true; std::cout &lt;&lt; "Initial x0 = " &lt;&lt; std::setprecision(4)&lt;&lt; x0 &lt;&lt; ", x1 = " &lt;&lt; x1 &lt;&lt; ", l0 = " &lt;&lt; l0 &lt;&lt; "\n"; // Run the solver! Solver::Summary summary; Solve(options, &amp;problem, &amp;summary); std::cout &lt;&lt; summary.FullReport() &lt;&lt; "\n"; std::cout &lt;&lt; "Final x0 = " &lt;&lt; x0 &lt;&lt; ", x1 = " &lt;&lt; x1 &lt;&lt; ", l0 = " &lt;&lt; l0 &lt;&lt; "\n"; return 0;&#125; ceres-solver官网]]></content>
       <categories>
         <category>slam技术</category>
       </categories>
