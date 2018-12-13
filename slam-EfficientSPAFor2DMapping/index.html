@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/lin-oracle.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cartographer," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="林少岳的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="cartographer 论文翻译">
+<meta name="keywords" content="cartographer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cartographer论文翻译:二维建图的高效稀疏姿态调整">
+<meta property="og:url" content="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/index.html">
+<meta property="og:site_name" content="林少岳的博客">
+<meta property="og:description" content="cartographer 论文翻译">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/_posts/slam-cartographer-notes/Screenshot/%20from/%202018-11-29/%2010-21-01.png">
+<meta property="og:updated_time" content="2018-12-13T01:40:31.017Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cartographer论文翻译:二维建图的高效稀疏姿态调整">
+<meta name="twitter:description" content="cartographer 论文翻译">
+<meta name="twitter:image" content="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/_posts/slam-cartographer-notes/Screenshot/%20from/%202018-11-29/%2010-21-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/"/>
+
+
+
+
+
+  <title>cartographer论文翻译:二维建图的高效稀疏姿态调整 | 林少岳的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">林少岳的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学而不思则罔 思而不学则殆</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShaoYue Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4884007?s=400&u=af3c3a113957bd20c7f2b0102773570000f7b48a&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="林少岳的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cartographer论文翻译:二维建图的高效稀疏姿态调整</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-27T11:03:04+08:00">
+                2018-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/slam技术/" itemprop="url" rel="index">
+                    <span itemprop="name">slam技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6,024
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>cartographer 论文翻译<br><a id="more"></a></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>姿势图已成为解决同时定位和建图（SLAM）问题的流行表示。<br>姿势图是一组机器人姿势，通过观察附近姿势共有的特征获得的非线性约束连接。<br>优化大型姿势图一直是移动机器人的瓶颈，因为直接非线性优化的计算时间可以随着图的大小而立方增长。<br>在本文中，我们提出了一种构造和求解线性子问题的有效方法，这是这些直接方法的瓶颈。<br>我们将我们称为稀疏姿态调整（SPA）的方法与竞争间接方法进行比较，并表明它在收敛速度和准确性方面优于它们。<br>我们在大量室内真实世界地图和非常大的模拟数据集上展示了它的有效性。<br>C++中的开源实现和数据集是公开可用的。</p>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>The recent literature in robot mapping shows an increasing interest in graph-based SLAM approaches.<br>In the most general form, the graph has nodes that represent both robot poses and world features, with measurements connecting them as constraints.<br>The goal of all approaches is to jointly optimize the poses of the nodes so as to minimize the error introduced by the constraint.<br>One classical variant of this problem comes from computer vision and is denoted as Bundle Adjustment [25], which is typically solved with a specialized variant of the Levenberg-Marquardt (LM) nonlinear optimizer.<br>In the SLAM literature, Lu-Milios [18], GraphSLAM [24], and √ SAM [4] are all variants of this technique.<br>机器人建图的最新文献显示出对基于图的SLAM方法的兴趣日益增加。<br>在最一般的形式中，图形具有表示机器人姿势和世界特征的节点，测量将它们连接为约束。<br>所有方法的目标是联合优化节点的姿势，以便最小化约束引入的误差。<br>该问题的一个经典变体来自计算机视觉，并表示为束调整[25]，其通常用Levenberg-Marquardt（LM）非线性优化器的专用变体解决。<br>在SLAM文献中，Lu-Milios [18]，GraphSLAM [24]和√SAM[4]都是这种技术的变种。 </p>
+<p>Since features tend to outnumber robot poses,<br>more compact systems can be created by converting observations of features into direct constraints among the robot poses,<br>either by marginalization [1, 24, 4], or by direct matching – for example,<br>matching laser scans between two robot poses yields a relative pose estimate for the two.<br>Pose constraint systems, in typical robotic mapping applications, exhibit a sparse structure of connections,<br>since the range of the sensor is typically limited to the vicinity of the robot.<br>由于功能往往超过机器人姿势，<br>通过将特征观察转换为机器人姿势之间的直接约束，可以创建更紧凑的系统，<br>要么通过边缘化[1,24,4]，要么通过直接匹配 - 例如，<br>在两个机器人姿势之间匹配激光扫描产生两者的相对姿势估计。<br>在典型的机器人地图应用中，姿态约束系统表现出稀疏的连接结构，<br>因为传感器的范围通常限于机器人的附近。</p>
+<p>Solving pose graphs efficiently (i.e., finding the optimal positions of the nodes) is a key problem for these methods especially in the context of online mapping problems.<br>A typical 2D laser map for a 100m x 100m office space may have several thousand nodes and many more constraints (see Figure 1).<br>Furthermore, adding a loop closure constraint to this map can affect almost all of the poses in the system.<br>有效地解决姿势图（即，找到节点的最佳位置）是这些方法的关键问题，尤其是在在线建图问题的背景下。<br>100m x 100m办公空间的典型2D激光地图可能有数千个节点和更多约束（见图1）。<br>此外，向此建图添加循环闭包约束可能会影响系统中的几乎所有姿势。</p>
+<p><img src="_posts/slam-cartographer-notes/Screenshot\ from\ 2018-11-29\ 10-21-01.png" alt="image"></p>
+<p>At the heart of the LM method lies the solution of a large sparse linear problem.<br>In this paper, we develop a method to efficiently compute the sparse matrix from the constraint graph, and use direct sparse linear methods to solve it.<br>In analogy to Sparse Bundle Adjustment in the vision literature, we call this method Sparse Pose Adjustment (SPA), since it deals with the restricted case of pose-pose constraints.<br>The combination of an SBA/GraphSLAM optimizer with efficient methods for solving the linear subproblem has the following advantages.<br>LM方法的核心在于解决大的稀疏线性问题。<br>在本文中，我们开发了一种从约束图有效地计算稀疏矩阵的方法，并使用直接稀疏线性方法来解决它。<br>与视觉文献中的稀疏束调整类似，我们将此方法称为稀疏姿势调整（SPA），因为它处理姿势 - 姿势约束的受限情况。<br>SBA / GraphSLAM优化器与解决线性子问题的有效方法的组合具有以下优点。</p>
+<p>It takes the covariance information in the constraints into account which leads to more accurate solutions.<br>• SPA is robust and tolerant to initialization, with very low failure rates (getting stuck in local minima) for both incremental and batch processing.<br>• Convergence is very fast as it requires only a few iterations of the LM method.<br>• Unlike EKF and information filters, SPA is fully nonlinear: at every iteration, it linearizes all constraints around their current pose.<br>• SPA is efficient in both batch and incremental mode<br>它考虑约束中的协方差信息，从而得到更精确的解。</p>
+<p>●SPA是健壮的并且容忍初始化，对于增量处理和批处理来说，具有非常低的故障率（陷入局部最小值）。</p>
+<p>●收敛非常快，因为它只需要LM方法的几次迭代。</p>
+<p>●与EKF和信息滤波器不同，SPA是完全非线性的：在每次迭代中，它线性化当前姿态周围的所有约束。</p>
+<p>SPA在批处理和增量模式下都是有效的</p>
+<p>We document these and other features of the method in the experimental results section where we also compare our method to other LM and non-LM state-of-the-art optimizers.<br>我们在实验结果部分记录了该方法的这些和其他特征，其中我们还将此方法与其他LM和非LM的最新优化器进行比较。</p>
+<p>One of the benefits of the efficiency of SPA is that a mapping system can continuously optimize its graph, providing the best global estimate of all nodes, with very little computational overhead.<br>Solving the optimization problem for the large map shown in Figure 1 requires only 150 ms from an initial configuration provided by odometry.<br>In the incremental mode, where the graph is optimized after each node is added, it requires less than 15 ms for any node addition.<br>SPA效率的好处之一是，映射系统可以连续优化其图，提供所有节点的最佳全局估计，而计算开销非常小。</p>
+<p>解决图1所示的大型地图的优化问题只需要距离里程计提供的初始配置150ms。</p>
+<p>在增量模式下，在添加每个节点之后优化图，对于任何节点添加，它需要小于15ms。</p>
+<p>Although SPA can be parameterized with 3D poses, for this paper we have restricted it to 2D mapping, which is a well-developed field with several competing optimization techniques.<br>Our intent is to show that a 2D pose-based mapping system can operate on-line using SPA as its optimization engine, even in large-scale environments and with large loop closures, without resorting to submaps or complicated partitioning schemes.<br>Although SPA can be parameterized with 3D poses, for this paper we have restricted it to 2D mapping, which is a well-developed field with several competing optimization techniques.<br>Our intent is to show that a 2D pose-based mapping system can operate on-line using SPA as its optimization engine, even in large-scale environments and with large loop closures, without resorting to submaps or complicated partitioning schemes.<br>Although SPA can be parameterized with 3D poses, for this paper we have restricted it to 2D mapping, which is a well-developed field with several competing optimization techniques.<br>Our intent is to show that a 2D pose-based mapping system can operate on-line using SPA as its optimization engine, even in large-scale environments and with large loop closures, without resorting to submaps or complicated partitioning schemes.</p>
+<p>尽管SPA可以用3D姿态参数化，但是本文将其局限于二维映射，这是一个具有多种竞争优化技术的成熟领域。<br>我们的意图是表明一个基于二维姿态的映射系统可以在线使用SPA作为其优化引擎，甚至在大规模环境和具有大环路闭合，而不诉诸子映射或复杂的划分方案。</p>
+<h2 id="II-相关工作"><a href="#II-相关工作" class="headerlink" title="II. 相关工作"></a>II. 相关工作</h2><p>Lu and Milios [18] presented the seminal work on graphbased SLAM, where they determine the pairwise measurements between scans via ICP scan-matching and then optimize the graph by iterative linearization.<br>At that time, efficient optimization algorithms were not available to the SLAM community and graph-based approaches were regarded as too time-consuming.<br>Despite this, the intuitive formulation of graph-based SLAM attracted many researchers with valuable contributions.<br>Gutmann and Konolige [12] proposed an effective way for constructing such a network and for detecting loop closures while running an incremental estimation algorithm.</p>
+<p>Lu和Milios[18]提出了基于图的SLAM的具有开创性的工作，其中他们通过ICP扫描匹配来确定扫描之间的成对测量，然后通过迭代线性化来优化该图。</p>
+<p>那时，SLAM社区还没有有效的优化算法，基于图的方法被认为太耗时。</p>
+<p>尽管如此，基于图的SLAM的直观公式吸引了许多研究者，并做出了有价值的贡献。</p>
+<p>Gutmann和Konolige[12]提出了一种构造这种网络和在运行增量估计算法的同时检测环路闭合的有效方法。</p>
+<p>Since the Lu and Milios paper, many approaches for graph optimization have been proposed.<br>Howard et al. [13] apply relaxation to localize the robot and build a map. Duckett et al. [6]<br>propose the usage of Gauss-Seidel relaxation to minimize the error in the network of constraints.<br>To overcome the inherently slow convergence of relaxation methods, Frese et al. [9] propose a variant of Gauss-Seidel relaxation called multi-level relaxation (MLR).<br>It applies relaxation at different resolutions.<br>MLR is reported to provide very good results in 2D environments, especially if the error in the initial guess is limited.</p>
+<p>自从Lu和Milios论文发表以来，人们提出了许多图优化的方法。</p>
+<p>霍华德等人。〔13〕应用松弛法定位机器人并建立地图。</p>
+<p>杜克特等人。〔6〕 提出了利用高斯-塞德尔松弛来最小化约束网络中的误差。</p>
+<p>为了克服松弛法固有的收敛速度慢，Frase等人。[9]提出了Gauss-Seidel弛豫的一种变型，称为多层弛豫(MLR)。</p>
+<p>它适用于不同分辨率的放松。</p>
+<p>据报道，MLR在2D环境中提供非常好的结果，尤其是在初始猜测的误差有限的情况下。</p>
+<p>Olson et al. [21] proposed stochastic gradient descent to optimize pose graphs.<br>This approach has the advantage of being easy to implement and exceptionally robust to wrong initial guesses.<br>Later, Grisetti et al. [10] extended this approach by applying a tree based parameterization that significantly increases the convergence speed.<br>The main problem of these approaches is that they assume the error in the graph to be more or less uniform, and thus they are difficult to apply to graphs where some constraints are under-specified.</p>
+<p>奥尔森等人提出了随机梯度下降法来优化姿态图。</p>
+<p>这种方法的优点是易于实现，并且对错误的初始猜测异常健壮。</p>
+<p>后来，格里塞蒂等。[10]通过应用显著提高收敛速度的基于树的参数化来扩展这种方法。</p>
+<p>这些方法的主要问题是，它们假设图中的误差或多或少是均匀的，因此它们很难应用于某些约束未被指定的图。</p>
+<p>The most intuitive way to optimize a graph is probably by nonlinear least-squares optimization, such as LM.<br>Leastsquares methods require to repetitively solve a large linear system obtained by linearizing the original likelihood function of the graph.<br>This linear system is usually very large; accordingly, the first graph-based approaches were time consuming, because they did not exploit its natural sparsity.<br>One promising technique is Preconditioned Conjugate Gradient (PCG) [2], which was later used by Konolige [15] and Montemerlo and Thrun [20] as an efficient solver for large sparse pose constraint systems; the preconditioner is typically incomplete Cholesky decomposition.<br>PCG is an iterative method, which in general requires n iterations to converge, where n is the number of variables in the graph.<br>We have implemented a sparse-matrix version of PCG from Sparselib++ and IML++ [5], and use this implementation for comparison experiments in this paper.</p>
+<p>优化图的最直观的方法可能是通过非线性最小二乘优化，如LM。</p>
+<p>最小二乘法需要重复求解通过线性化图的原始似然函数而获得的大型线性系统。</p>
+<p>这种线性系统通常非常大；因此，第一种基于图的方法是耗时的，因为它们没有利用其自然的稀疏性。</p>
+<p>一种有前途的技术是预条件共轭梯度（PCG）[2]，后来被Konolige[15]和Montemerlo和Srun[20]用作大型稀疏位姿约束系统的有效求解器； 预条件通常是不完全Cholesky分解。</p>
+<p>PCG是一种迭代方法，一般需要n次迭代才能收敛，其中n是图中变量的数目。</p>
+<p>我们从Sparselib++和IML++[5]中实现了PCG的稀疏矩阵版本，并将该实现用于比较实验。</p>
+<p>More recently, Dellaert and colleagues use bundle adjustment, which they implement using sparse direct linear solvers [3]; they call their system √ SAM [4]).<br>Our approach is similar to SAM; we differ from their approach mostly in engineering, by efficient construction of the linear subproblem using ordered data structures.<br>We also use LM instead of a standard nonlinear least-square method, thereby increasing robustness.<br>Finally, we introduce a “continuable LM” method for the incremental case, and an initialization method that is a much more robust approach to the batch problem.</p>
+<p>最近，Dellaert和他的同事使用束调整，他们使用稀疏的直接线性求解器[3]实现束调整；他们称他们的系统_SAM[4]。</p>
+<p>我们的方法与SAM类似；我们与他们的方法在工程上主要不同，这是通过使用有序数据结构高效地构造线性子问题。</p>
+<p>我们还使用LM代替标准的非线性最小二乘法，从而提高了鲁棒性。</p>
+<p>最后，我们介绍了增量情况下的一种“连续LM”方法，以及一种更稳健的批处理问题的初始化方法。</p>
+<p>Kaess et al. [14] introduced a variant of √ SAM, called iSAM, that performs incremental update of the linear matrix associated with the nonlinear least-squares problem.<br>Relinearization and variable ordering are performed only occasionally, thereby increasing computational efficiency.<br>In our approach, relinearization and matrix construction are very efficient, so such methods become less necessary.<br>Currently we do not have an implementation of either iSAM or √ SAM to test against for performance.</p>
+<p>凯斯等人。[14]引入了_SAM的变体，称为iSAM，其执行与非线性最小二乘问题相关联的线性矩阵的增量更新。</p>
+<p>只偶尔执行重线性化和变量排序，从而提高计算效率。</p>
+<p>在我们的方法中，重新线性化和矩阵构造是非常有效的，因此这些方法变得不太必要。</p>
+<p>目前，我们没有iSAM或_SAM的实现，无法针对性能进行测试。</p>
+<p>Relaxation or least-squares approaches proceed by iteratively refining an initial guess.<br>Conversely, approaches based on stochastic gradient descent are more robust to the initial guess.<br>In the SLAM literature the importance of this initial guess has been often underestimated.<br>The better the initial guess is, the more likely it is for an algorithm to find the correct solution.<br>In this paper, we address this point and evaluate three different strategies for computing the initial guess.</p>
+<p>松弛法或最小二乘法通过迭代地细化初始猜测来进行。</p>
+<p>相反，基于随机梯度下降的方法对初始猜测更稳健。</p>
+<p>在SLAM文献中，这种初始猜测的重要性经常被低估。</p>
+<p>初始猜测越好，算法找到正确解决方案的可能性就越大。</p>
+<p>在本文中，我们讨论了这一点，并评估了三种不同的策略来计算初始猜测。</p>
+<p>In contrast to full nonlinear optimization, several researchers have explored filtering techniques to solve the graphs incrementally, using an information matrix form.<br>The first such approach was proposed by Eustice et al.<br>and denoted Delayed Sparse Information Filter (DSIF) [7].<br>This technique can be very efficient, because it adds only a small constant number of elements to the system information matrix, even for loop closures.<br>However, recovering the global pose of all nodes requires solving a large sparse linear system; there are faster ways of getting approximate recent poses.</p>
+<p>与全非线性优化相比，一些研究人员探索了使用信息矩阵形式递增地求解图的滤波技术。</p>
+<p>第一种这样的方法是由EuStruts等人提出的。</p>
+<p>并表示延迟稀疏信息滤波器（DSIF）〔7〕。</p>
+<p>这种技术可能是非常有效的，因为它仅向系统信息矩阵添加少量的常数元素，甚至对于循环闭合也是如此。</p>
+<p>然而，恢复所有节点的全局姿态需要求解一个大型的稀疏线性系统；有更快的方法来获得近似的最近姿态。</p>
+<p>Frese proposed the TreeMap [8] algorithm that captures the sparse structure of the system by a tree representation.<br>Each leaf in the tree is a local map and the consistency of the estimate is achieved by sending updates to the local maps through the tree.<br>Under ideal conditions, this approach can update the whole map in O(n log n) time, where n is the numbers of elements in the map.<br>However, if the map has many local connections the size of the local maps can be very large and their updates (which are regarded as elementary operations) become computationally expensive as shown in the remainder of this paper.</p>
+<p>Frese提出了TreeMap [8]算法，该算法通过树表示来捕获系统的稀疏结构。<br>树中的每个叶子都是一个本地地图，估计的一致性是通过树发送更新到本地地图来实现的。<br>在理想条件下，此方法可以在O（n log n）时间内更新整个地图，其中n是地图中元素的数量。<br>但是，如果地图具有许多本地连接，则本地地图的大小可能非常大，并且它们的更新（被视为基本操作）变得计算成本昂贵，如本文其余部分所示。</p>
+<p>To summarize the paper: we propose an efficient approach for optimizing 2D pose graphs that uses direct sparse Cholesky decomposition to solve the linear system.<br>The linear system is computed in a memory-efficient way that minimizes cache misses and thus significantly improves the performance.<br>We compare our method, in both accuracy and speed, to existing LM and non-LM approaches that are avaiable, and show that SPA outperforms them.<br>Open source implementations are available both in C++ and in matlab/octave.<br>Efficient direct (non-iterative) algorithms to solve sparse systems have become available [3], thus reviving a series of approaches for optimizing the graphs which have been discarded in the past.<br>In this paper,<br>综上所述，本文提出了一种利用直接稀疏Cholesky分解求解线性系统的二维位姿图优化方法。</p>
+<p>线性系统的计算采用内存高效的方式，使缓存遗漏最小化，从而显著提高了性能。</p>
+<p>我们将我们的方法在精度和速度上与可用的现有LM和非LM方法进行比较，并且表明SPA优于它们。</p>
+<p>开源实现在C++和Matlab/OcthVE中都是可用的。</p>
+<p>用于求解稀疏系统的有效直接（非迭代）算法已经变得可用[3]，从而恢复了一系列用于优化过去被丢弃的图的方法。</p>
+<p>在本文中，</p>
+<p>III. SYSTEM FORMULATION</p>
+<p>Popular approaches to solve the SLAM problem are the socalled “graph-based” or “network-based” methods.<br>The idea is to represent the history of the robot measurements by a graph.<br>Every node of the graph represents a sensor measurement or a local map and it is labeled with the location at which the measurement was taken.<br>An edge between two nodes encodes the spatial information arising from the alignment of the connected measurements and can be regarded as a spatial constraint between the two nodes.</p>
+<p>Popular approaches to solve the SLAM problem are the socalled “graph-based” or “network-based” methods.<br>The idea is to represent the history of the robot measurements by a graph.<br>Every node of the graph represents a sensor measurement or a local map and it is labeled with the location at which the measurement was taken.<br>An edge between two nodes encodes the spatial information arising from the alignment of the connected measurements and can be regarded as a spatial constraint between the two nodes.<br>Popular approaches to solve the SLAM problem are the socalled “graph-based” or “network-based” methods.<br>The idea is to represent the history of the robot measurements by a graph.<br>Every node of the graph represents a sensor measurement or a local map and it is labeled with the location at which the measurement was taken.<br>An edge between two nodes encodes the spatial information arising from the alignment of the connected measurements and can be regarded as a spatial constraint between the two nodes.<br>解决SLAM问题的流行方法是所谓的“基于图”或“基于网络”方法。</p>
+<p>这个想法是通过图表来表示机器人测量的历史。</p>
+<p>图中的每个节点表示传感器测量或局部地图，并且用测量所处的位置对其进行标记。</p>
+<p>两个节点之间的边缘编码由于连接测量的对齐而产生的空间信息，并且可以被视为两个节点之间的空间约束。</p>
+<p>In the context of graph-based SLAM, one typically considers two different problems.<br>The first one is to identify the constraints based on sensor data.<br>This so-called data association problem is typically hard due to potential ambiguities or symmetries in the environment.<br>A solution to this problem is often referred to as the SLAM front-end and it directly deals with the sensor data.<br>The second problem is to correct the poses of the robot to obtain a consistent map of the environment given the constraints.<br>This part of the approach is often referred to as the optimizer or the SLAM back-end.<br>Its task is to seek for a configuration of the nodes that maximizes the likelihood of the measurements encoded in the constraints.<br>An alternative view to this problem is given by the springmass model in physics.<br>In this view, the nodes are regarded as masses and the constraints as springs connected to the masses.<br>The minimal energy configuration of the springs and masses describes a solution to the mapping problem.</p>
+<p>在基于图的SLAM环境中，通常考虑两个不同的问题。</p>
+<p>第一种是基于传感器数据识别约束。</p>
+<p>由于环境中的潜在模糊或对称性，这种所谓的数据关联问题通常很难解决。</p>
+<p>这个问题的解决方案通常被称为SLAM前端，它直接处理传感器数据。</p>
+<p>第二个问题是修正机器人的姿态，以获得给定约束环境的一致映射。</p>
+<p>这种方法的这一部分通常被称为优化器或SLAM后端。</p>
+<p>它的任务是寻找使约束中编码的测量的可能性最大化的节点的配置。</p>
+<p>对这个问题的另一种观点是由物理学中的弹性模型给出的。</p>
+<p>在这种观点中，节点被视为质量，而约束则被视为与质量相连的弹簧。</p>
+<p>弹簧和质量的最小能量配置描述了映射问题的解决方案。</p>
+<p>During its operation a graph-based SLAM system interleaves the execution of the front-end and of the back-end, as shown in Figure 2.<br>This is required because the front-end needs to operate on a partially optimized map to restrict the search about potential constraints.<br>The more accurate the current estimate is, the more robust the constraints generated by the front-end will be and the faster its operation.<br>Accordingly, the performance of the optimization algorithm, measured in terms of accuracy of the estimate and execution time, has a major impact on the overall mapping system.<br>在其操作期间，基于图的SLAM系统交错前端和后端的执行，如图2所示。</p>
+<p>这是必需的，因为前端需要对部分优化的映射进行操作，以限制对潜在约束的搜索。</p>
+<p>当前估计越精确，由前端生成的约束将越健壮，并且其操作也越快。</p>
+<p>因此，从估计精度和执行时间方面衡量的优化算法的性能对整个映射系统有重要影响。</p>
+<p>In this paper we describe in detail an efficient and compact optimization approach that operates on 2D graphs.<br>Our algorithm can be coupled with arbitrary front-ends that handle different kinds of sensors.<br>For clarity of presentation we shortly describe a front-end for laser data.<br>However, the general concepts can be straightforwardly applied to different sensors.<br>本文详细描述了一种高效紧凑的二维图优化方法。</p>
+<p>我们的算法可以与处理不同类型传感器的任意前端耦合。</p>
+<p>为了简洁的介绍，我们简短地描述了激光数据的前端。</p>
+<p>然而，一般概念可以直接应用于不同的传感器。</p>
+<p>IV. SPARSE POSE ADJUSTMENT</p>
+<p>To optimize a set of poses and constraints, we use the wellknown Levenberg-Marquardt (LM) method as a framework, with particular implementations that make it efficient for the sparse systems encountered in 2D map building.<br>In analogy to the Sparse Bundle Adjustment of computer vision, which is a similarly efficient implementation of LM for cameras and features, we call our system Sparse Pose Adjustment (SPA).</p>
+<p>为了优化一组姿态和约束，我们使用众所周知的Levenberg-Marquardt(LM)方法作为框架，并且使用特定的实现使其对于二维地图构建中遇到的稀疏系统有效。</p>
+<p>类似于计算机视觉的稀疏束调整（Sparse Bundle.stment），它是用于相机和特征的LM的类似高效实现，我们称之为稀疏姿态调整（Sparse Pose.stment，SPA）。</p>
+<p>A. Error Formulation</p>
+<p>The variables of the system are the set of global poses c of the robot, parameterized by a translation and angle: $c_i = [t_i , θ_i ] = [x_i , y_i , θ_i ] ⊤$.<br>A constraint is a measurement of one node cj from another’s (ci) position.<br>The measured offset between ci and cj , in ci’s frame, is z¯ij , with precision matrix Λij (inverse of covariance).<br>For any actual poses of ci and cj , their offset can be calculated as </p>
+<pre><code>h(ci , cj ) ≡  R⊤ i (tj − ti) θj − θi (1)
+</code></pre><p>Here Ri is the 2x2 rotation matrix of θi . h(ci , cj ) is called the measurement equation.<br>The error function associated with a constraint, and the total error, are</p>
+<pre><code>eij ≡ z¯ij − h(ci , cj ) χ 2 (c, p) ≡ X ij e ⊤ ijΛij eij (2) 
+</code></pre><p>Note that the angle parameter in h(ci , cj ) is not unique, since adding or subtracting 2π yields the same result.<br>Angle differences are always normalized to the interval (−π, π] when they occur.</p>
+<p>B. Linear System<br>The optimal placement of c is found by minimizing the total error in Equation 2.<br>A standard method for solving this problem is Levenberg-Marquardt (LM), iterating a linearized solution around the current values of c.<br>The linear system is formed by stacking the variables c into a vector x, and the error functions into a vector e.<br>Then we define:</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ShaoYue Lin
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/" title="cartographer论文翻译:二维建图的高效稀疏姿态调整">http://lsy563193.github.io/slam-EfficientSPAFor2DMapping/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cartographer/" rel="tag"># cartographer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/homework-Refrigerator storage/" rel="next" title="冰箱收纳">
+                <i class="fa fa-chevron-left"></i> 冰箱收纳
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/4884007?s=400&u=af3c3a113957bd20c7f2b0102773570000f7b48a&v=4"
+                alt="ShaoYue Lin" />
+            
+              <p class="site-author-name" itemprop="name">ShaoYue Lin</p>
+              <p class="site-description motion-element" itemprop="description">持续学习</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lsy563193" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://youtube.com/" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hexo.io/zh-cn/" title="Hexo" target="_blank">Hexo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://theme-next.iissnan.com/" title="nexT" target="_blank">nexT</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-介绍"><span class="nav-number">2.</span> <span class="nav-text">1. 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#II-相关工作"><span class="nav-number">3.</span> <span class="nav-text">II. 相关工作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShaoYue Lin</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

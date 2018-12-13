@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="概述使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。 1234567891011#! /usr/bin/env pythonimport sysimport">
+<meta name="description" content="在vscode jupyter模式下工作">
 <meta name="keywords" content="vscode,jupyter">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在vscode jupyter模式下工作">
 <meta property="og:url" content="http://lsy563193.github.io/tools-work-in-vscode-with-jupyter/index.html">
 <meta property="og:site_name" content="林少岳的博客">
-<meta property="og:description" content="概述使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。 1234567891011#! /usr/bin/env pythonimport sysimport">
+<meta property="og:description" content="在vscode jupyter模式下工作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-30T02:46:02.963Z">
+<meta property="og:updated_time" content="2018-11-06T04:23:32.645Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在vscode jupyter模式下工作">
-<meta name="twitter:description" content="概述使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。 1234567891011#! /usr/bin/env pythonimport sysimport">
+<meta name="twitter:description" content="在vscode jupyter模式下工作">
 
 
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  283
+                  291
                 </span>
               
 
@@ -420,7 +420,8 @@
       
 
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。</p>
+        <p>在vscode jupyter模式下工作<br><a id="more"></a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>使用jupyter notebook工作时候不习惯，自己还是喜欢在vscode纯vim的工作模式。于是下载了vscode jupyter的插件，但是这是来写pyd代码的。我的目的最终是生成md文档，记录我学习的过程。于是我下载了一个py2md.py的工具。做了些修改，用于把py生成md文件。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> markdown, lines <span class="keyword">in</span> itertools.groupby(open(sys.argv[<span class="number">1</span>]).readlines(), key=<span class="keyword">lambda</span> line: line.startswith(<span class="string">'# '</span>)):</span><br><span class="line">    <span class="keyword">if</span> markdown:</span><br><span class="line">        print(<span class="string">''</span>.join(line[<span class="number">2</span>:] <span class="keyword">for</span> line <span class="keyword">in</span> lines))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'\n```python'</span>)</span><br><span class="line">        print(<span class="string">''</span>.join(lines).strip())</span><br><span class="line">        print(<span class="string">'```\n'</span>)</span><br></pre></td></tr></table></figure>
 <p>写的过程中需要注意的几点:</p>
 <ul>
@@ -577,7 +578,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -588,7 +589,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -599,7 +600,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

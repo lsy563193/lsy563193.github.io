@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/lin-oracle.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/lin-oracle.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cartographer," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="林少岳的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061// Constructs the nonlinear least squares optimization problem from the pose// graph co">
+<meta name="keywords" content="cartographer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ceres-solver examples之pose_graph_2d学习笔记">
+<meta property="og:url" content="http://lsy563193.github.io/slam-ceres-cartographer-pose-graph/index.html">
+<meta property="og:site_name" content="林少岳的博客">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061// Constructs the nonlinear least squares optimization problem from the pose// graph co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/ceres-pose-slam.png">
+<meta property="og:updated_time" content="2018-11-06T07:33:15.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ceres-solver examples之pose_graph_2d学习笔记">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061// Constructs the nonlinear least squares optimization problem from the pose// graph co">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/ceres-pose-slam.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lsy563193.github.io/slam-ceres-cartographer-pose-graph/"/>
+
+
+
+
+
+  <title>Ceres-solver examples之pose_graph_2d学习笔记 | 林少岳的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">林少岳的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学而不思则罔 思而不学则殆</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lsy563193.github.io/slam-ceres-cartographer-pose-graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShaoYue Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4884007?s=400&u=af3c3a113957bd20c7f2b0102773570000f7b48a&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="林少岳的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ceres-solver examples之pose_graph_2d学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T15:25:06+08:00">
+                2018-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/slam技术/" itemprop="url" rel="index">
+                    <span itemprop="name">slam技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,924
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Constructs the nonlinear least squares optimization problem from the pose</span></span><br><span class="line"><span class="comment">// graph constraints.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BuildOptimizationProblem</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Constraint2d&gt;&amp; constraints,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>, Pose2d&gt;* poses,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ceres::Problem* problem)</span> </span>&#123;</span><br><span class="line">  CHECK(poses != <span class="literal">NULL</span>);</span><br><span class="line">  CHECK(problem != <span class="literal">NULL</span>);</span><br><span class="line">  <span class="keyword">if</span> (constraints.empty()) &#123;</span><br><span class="line">    LOG(INFO) &lt;&lt; <span class="string">"No constraints, no problem to optimize."</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ceres::LossFunction* loss_function = <span class="literal">NULL</span>;</span><br><span class="line">  ceres::LocalParameterization* angle_local_parameterization =</span><br><span class="line">      AngleLocalParameterization::Create();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Constraint2d&gt;::const_iterator constraints_iter =</span><br><span class="line">           constraints.begin();</span><br><span class="line">       constraints_iter != constraints.end(); ++constraints_iter) &#123;</span><br><span class="line">    <span class="keyword">const</span> Constraint2d&amp; constraint = *constraints_iter;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>, Pose2d&gt;::iterator pose_begin_iter =</span><br><span class="line">        poses-&gt;find(constraint.id_begin);</span><br><span class="line">    CHECK(pose_begin_iter != poses-&gt;end())</span><br><span class="line">        &lt;&lt; <span class="string">"Pose with ID: "</span> &lt;&lt; constraint.id_begin &lt;&lt; <span class="string">" not found."</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>, Pose2d&gt;::iterator pose_end_iter =</span><br><span class="line">        poses-&gt;find(constraint.id_end);</span><br><span class="line">    CHECK(pose_end_iter != poses-&gt;end())</span><br><span class="line">        &lt;&lt; <span class="string">"Pose with ID: "</span> &lt;&lt; constraint.id_end &lt;&lt; <span class="string">" not found."</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> Eigen::Matrix3d sqrt_information =</span><br><span class="line">        constraint.information.llt().matrixL();</span><br><span class="line">    <span class="comment">// Ceres will take ownership of the pointer.</span></span><br><span class="line">    ceres::CostFunction* cost_function = PoseGraph2dErrorTerm::Create(</span><br><span class="line">        constraint.x, constraint.y, constraint.yaw_radians, sqrt_information);</span><br><span class="line">    problem-&gt;AddResidualBlock(</span><br><span class="line">        cost_function, loss_function, &amp;pose_begin_iter-&gt;second.x,</span><br><span class="line">        &amp;pose_begin_iter-&gt;second.y, &amp;pose_begin_iter-&gt;second.yaw_radians,</span><br><span class="line">        &amp;pose_end_iter-&gt;second.x, &amp;pose_end_iter-&gt;second.y,</span><br><span class="line">        &amp;pose_end_iter-&gt;second.yaw_radians);</span><br><span class="line"></span><br><span class="line">    problem-&gt;SetParameterization(&amp;pose_begin_iter-&gt;second.yaw_radians,</span><br><span class="line">                                angle_local_parameterization);</span><br><span class="line">    problem-&gt;SetParameterization(&amp;pose_end_iter-&gt;second.yaw_radians,</span><br><span class="line">                                angle_local_parameterization);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The pose graph optimization problem has three DOFs that are not fully</span></span><br><span class="line">  <span class="comment">// constrained. This is typically referred to as gauge freedom. You can apply</span></span><br><span class="line">  <span class="comment">// a rigid body transformation to all the nodes and the optimization problem</span></span><br><span class="line">  <span class="comment">// will still have the exact same cost. The Levenberg-Marquardt algorithm has</span></span><br><span class="line">  <span class="comment">// internal damping which mitigate this issue, but it is better to properly</span></span><br><span class="line">  <span class="comment">// constrain the gauge freedom. This can be done by setting one of the poses</span></span><br><span class="line">  <span class="comment">// as constant so the optimizer cannot change it.</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>, Pose2d&gt;::iterator pose_start_iter =</span><br><span class="line">      poses-&gt;begin();</span><br><span class="line">  CHECK(pose_start_iter != poses-&gt;end()) &lt;&lt; <span class="string">"There are no poses."</span>;</span><br><span class="line">  problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.x);</span><br><span class="line">  problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.y);</span><br><span class="line">  problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.yaw_radians);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Ceres-solver examples之pose_graph_2d学习笔记<br>ceres-solver库是google的非线性优化库，可以对slam问题，机器人位姿进行优化，使其建图的效果得到改善。pose_graph_2d是官方给出的二维平面上机器人位姿优化问题，需要读取一个g2o文件，运行程序后返回一个poses_original.txt和一个poses_optimized.txt，大家按字面意思理解，内部格式长这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pose_id x y yaw_radians</span><br><span class="line">pose_id x y yaw_radians</span><br><span class="line">pose_id x y yaw_radians</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>得到这两个文件后，用官方提供的plot_results.py可以画出原始和优化后的位姿地图<br><img src="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/ceres-pose-slam.png" alt="image"><br><a id="more"></a></p>
+<h2 id="变量说明"><a href="#变量说明" class="headerlink" title="变量说明"></a>变量说明</h2><p>重要变量为以下几个：<br>constraints：vector，放入变量的类型为Constraint2d， 含义为机器人两个pose之间的限制，Constraint2d包括两个pose的id，相对坐标x，y，和协方差阵。这个变量描述的是观测量测量量measurement，即机器人认为自己感知到的正确的数据。</p>
+<p>poses: map类指针，键值对为id和 Pose2d ，Pose2d是一个由id，世界坐标x，y，yaw角。这个变量描述的是实际机器人的世界坐标位置，是确确实实发生的事实。</p>
+<h2 id="关键步骤"><a href="#关键步骤" class="headerlink" title="关键步骤"></a>关键步骤</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Ceres will take ownership of the pointer.</span></span><br><span class="line"><span class="comment">//将需要的参数传入，设置残差，构造costfunction，使用自动求导方式</span></span><br><span class="line">ceres::CostFunction* cost_function = PoseGraph2dErrorTerm::Create(</span><br><span class="line">    constraint.x, constraint.y, constraint.yaw_radians, sqrt_information);</span><br></pre></td></tr></table></figure>
+<p>详情见下面的Costfunction的搭建。</p>
+<h3 id="一、Costfunction的搭建"><a href="#一、Costfunction的搭建" class="headerlink" title="一、Costfunction的搭建"></a>一、Costfunction的搭建</h3><p>使用ceres库的关键是构造 costfunction ，ceres官方搭建的costfunction，同样有一个类表示，名为PoseGraph2dErrorTerm，具体如下所示：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoseGraph2dErrorTerm</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  PoseGraph2dErrorTerm(<span class="keyword">double</span> x_ab, <span class="keyword">double</span> y_ab, <span class="keyword">double</span> yaw_ab_radians,</span><br><span class="line">                       <span class="keyword">const</span> Eigen::Matrix3d&amp; sqrt_information)</span><br><span class="line">      : p_ab_(x_ab, y_ab),</span><br><span class="line">        yaw_ab_radians_(yaw_ab_radians),</span><br><span class="line">        sqrt_information_(sqrt_information) &#123;&#125;</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">  <span class="comment">//x_a,y_a(p_a)x_b,y_b(p_b)是世界下的ab坐标</span></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> T* <span class="keyword">const</span> x_a, <span class="keyword">const</span> T* <span class="keyword">const</span> y_a, <span class="keyword">const</span> T* <span class="keyword">const</span> yaw_a,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">const</span> T* <span class="keyword">const</span> x_b, <span class="keyword">const</span> T* <span class="keyword">const</span> y_b, <span class="keyword">const</span> T* <span class="keyword">const</span> yaw_b,</span></span></span><br><span class="line"><span class="function"><span class="params">                  T* residuals_ptr)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Eigen::Matrix&lt;T, <span class="number">2</span>, <span class="number">1</span>&gt; p_a(*x_a, *y_a);</span><br><span class="line">    <span class="keyword">const</span> Eigen::Matrix&lt;T, <span class="number">2</span>, <span class="number">1</span>&gt; p_b(*x_b, *y_b);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//map映射类  将外部传进来的residuals_ptr映射到matrix&lt;3,1&gt;，取名为residuals_map</span></span><br><span class="line">    Eigen::Map&lt;Eigen::Matrix&lt;T, <span class="number">3</span>, <span class="number">1</span>&gt; &gt; residuals_map(residuals_ptr);</span><br><span class="line"></span><br><span class="line">    residuals_map.<span class="keyword">template</span> head&lt;<span class="number">2</span>&gt;() =</span><br><span class="line">        RotationMatrix2D(*yaw_a).transpose() * (p_b - p_a) -</span><br><span class="line">        p_ab_.cast&lt;T&gt;();</span><br><span class="line">    residuals_map(<span class="number">2</span>) = ceres::examples::NormalizeAngle(</span><br><span class="line">        (*yaw_b - *yaw_a) - <span class="keyword">static_cast</span>&lt;T&gt;(yaw_ab_radians_));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Scale the residuals by the square root information matrix to account for</span></span><br><span class="line">    <span class="comment">// the measurement uncertainty.</span></span><br><span class="line">    residuals_map = sqrt_information_.<span class="keyword">template</span> cast&lt;T&gt;() * residuals_map;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//静态成员函数 构造costfunction   AutoDiffCostFunction 残差参数为3维  其他参数每个1维(参数是operator里的参数)</span></span><br><span class="line">  <span class="keyword">static</span> ceres::<span class="function">CostFunction* <span class="title">Create</span><span class="params">(<span class="keyword">double</span> x_ab, <span class="keyword">double</span> y_ab,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">double</span> yaw_ab_radians,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">const</span> Eigen::Matrix3d&amp; sqrt_information)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">new</span> ceres::AutoDiffCostFunction&lt;PoseGraph2dErrorTerm, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                            <span class="number">1</span>, <span class="number">1</span>&gt;(<span class="keyword">new</span> PoseGraph2dErrorTerm(</span><br><span class="line">        x_ab, y_ab, yaw_ab_radians, sqrt_information)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  EIGEN_MAKE_ALIGNED_OPERATOR_NEW</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="comment">// The position of B relative to A in the A frame.</span></span><br><span class="line">  <span class="keyword">const</span> Eigen::Vector2d p_ab_;</span><br><span class="line">  <span class="comment">// The orientation of frame B relative to frame A.</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> yaw_ab_radians_;</span><br><span class="line">  <span class="comment">// The inverse square root of the measurement covariance matrix.</span></span><br><span class="line">  <span class="keyword">const</span> Eigen::Matrix3d sqrt_information_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>其中包括：<br>一个构造函数PoseGraph2dErrorTerm(x_ab, y_ab, yaw_ab_radians, sqrt_information)；<br>一个运算符重载operator()(x_a, y_a, yaw_a, x_b, y_b, yaw_b, residuals_ptr)，其中residuals_ptr指向的东西是计算出的残差；<br>一个构造costfunction的函数Create(x_ab, y_ab, yaw_ab_radians,&amp; sqrt_information)。</p>
+<p>operator()的作用<br>传入参数计算残差，残差有三维，如下所示：<br>residual = information1/2 <em> [ raT </em> (pb - pa) - hat( pab ) ] （2维）<br>[ Normalize(yawb - yawa - hat( yawab ) ) ] （1维）</p>
+<p>其中ra  是 timestep a 时从当前坐标系转向世界坐标系的旋转矩阵， pb  和 pa 是世界坐标系下timestep a 和 b 时的机器人位置，带hat的是测量值，是在时刻a时机器人坐标系下观察的测量值。</p>
+<p>Create函数的作用<br>用来构造一个costfunction类，与一般不同的是，main函数里调用Create函数来构造costfunction.<br>定义求导方式，官方例程里定义的是自动求导方式，即ceres::AutoDiffCostFunction，&lt;&gt;里的参数是我们的PoseGraph2dErrorTerm类，和优化变量的维数，详情见代码注释。</p>
+<h3 id="二、构造Problem"><a href="#二、构造Problem" class="headerlink" title="二、构造Problem"></a>二、构造Problem</h3><p>当costfunction搭建好后，给每个constraint都加入残差快AddResidualBlock, 官方例程没有用核函数，传入costfunction，传入待优化参数即可。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加problem 待优化的参数和PoseGraph2dErrorTerm里的operator保持一致</span></span><br><span class="line">problem-&gt;AddResidualBlock(</span><br><span class="line">    cost_function, loss_function, &amp;pose_begin_iter-&gt;second.x,</span><br><span class="line">    &amp;pose_begin_iter-&gt;second.y, &amp;pose_begin_iter-&gt;second.yaw_radians,</span><br><span class="line">    &amp;pose_end_iter-&gt;second.x, &amp;pose_end_iter-&gt;second.y,</span><br><span class="line">    &amp;pose_end_iter-&gt;second.yaw_radians);</span><br></pre></td></tr></table></figure></p>
+<h3 id="三、LocalParameterization搭建"><a href="#三、LocalParameterization搭建" class="headerlink" title="三、LocalParameterization搭建"></a>三、LocalParameterization搭建</h3><p>理论详情见( <a href="https://blog.csdn.net/HUAJUN998/article/details/76222745" target="_blank" rel="noopener">https://blog.csdn.net/HUAJUN998/article/details/76222745</a> ），目的是利用一个增量构造Jacobian矩阵更新变量，具体不是很懂。官方例程只用它优化了yaw角，官方例程按照ceres库内的autodiff_local_parameterization.h定义方法定义了一个AngleLocalParameterization类，写在了例程中的angle_local_parameterization.h中，如下所示：<br>// Defines a local parameterization for updating the angle to be constrained in<br>// [-pi to pi).<br>class AngleLocalParameterization {<br> public:</p>
+<p>  template <typename t=""><br>  bool operator()(const T<em> theta_radians, const T</em> delta_theta_radians,<br>                  T<em> theta_radians_plus_delta) const {
+    </em>theta_radians_plus_delta =<br>        NormalizeAngle(<em>theta_radians + </em>delta_theta_radians);</typename></p>
+<pre><code>return true;
+</code></pre><p>  }</p>
+<p>  //构造LocalParameterization函数，使用自动求导<br>  //参数目前不懂什么意思，应该是operator中输入输出参数的维数，Global Size和Local size<br>  static ceres::LocalParameterization* Create() {<br>    return (new ceres::AutoDiffLocalParameterization<anglelocalparameterization, 1="" 1,="">);<br>  }<br>};</anglelocalparameterization,></p>
+<p>然后在主程序制造优化问题时，在迭代constraints之前就create了角度的localparameterization：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造yaw角度的localparameterization，更新角度 yaw_new = yaw + △yaw</span></span><br><span class="line">ceres::LocalParameterization* angle_local_parameterization =</span><br><span class="line">    AngleLocalParameterization::Create();</span><br></pre></td></tr></table></figure></p>
+<p>等到迭代遍历时，就加入了每一个constraint内两个pose的yaw角，如下所示：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//为yaw角设置localparameterization</span></span><br><span class="line">problem-&gt;SetParameterization(&amp;pose_begin_iter-&gt;second.yaw_radians,</span><br><span class="line">                            angle_local_parameterization);</span><br><span class="line">problem-&gt;SetParameterization(&amp;pose_end_iter-&gt;second.yaw_radians,</span><br><span class="line">                            angle_local_parameterization);</span><br></pre></td></tr></table></figure></p>
+<h3 id="四、固定初始位姿"><a href="#四、固定初始位姿" class="headerlink" title="四、固定初始位姿"></a>四、固定初始位姿</h3><p>官方例程上讲，优化问题是三个自由度的，没有造成互相之间完全的限制，这个问题叫做规范自由度（gauge freedom），详情见规范固定 ，具体不懂，反正按官方例程的意思是要固定第一个pose，不让它进行优化。<br>  // The pose graph optimization problem has three DOFs that are not fully<br>  // constrained. This is typically referred to as gauge freedom. You can apply<br>  // a rigid body transformation to all the nodes and the optimization problem<br>  // will still have the exact same cost. The Levenberg-Marquardt algorithm has<br>  // internal damping which mitigate this issue, but it is better to properly<br>  // constrain the gauge freedom. This can be done by setting one of the poses<br>  // as constant so the optimizer cannot change it.<br>  //规范固定，通过将一个pose设定成常量来限制规范自由度，具体含义不懂<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>, Pose2d&gt;::iterator pose_start_iter =</span><br><span class="line">    poses-&gt;begin();</span><br><span class="line">CHECK(pose_start_iter != poses-&gt;end()) &lt;&lt; <span class="string">"There are no poses."</span>;</span><br><span class="line">problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.x);</span><br><span class="line">problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.y);</span><br><span class="line">problem-&gt;SetParameterBlockConstant(&amp;pose_start_iter-&gt;second.yaw_radians);</span><br></pre></td></tr></table></figure></p>
+<p>五、相关链接<br>以上是程序的主要问题，关于cpp的基础知识可参考下方链接：<br>ceres-solver官方教程</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ShaoYue Lin
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lsy563193.github.io/slam-ceres-cartographer-pose-graph/" title="Ceres-solver examples之pose_graph_2d学习笔记">http://lsy563193.github.io/slam-ceres-cartographer-pose-graph/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cartographer/" rel="tag"># cartographer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/tools-latex/" rel="next" title="latex">
+                <i class="fa fa-chevron-left"></i> latex
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/向量分析/" rel="prev" title="向量分析">
+                向量分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/4884007?s=400&u=af3c3a113957bd20c7f2b0102773570000f7b48a&v=4"
+                alt="ShaoYue Lin" />
+            
+              <p class="site-author-name" itemprop="name">ShaoYue Lin</p>
+              <p class="site-description motion-element" itemprop="description">持续学习</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lsy563193" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://youtube.com/" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hexo.io/zh-cn/" title="Hexo" target="_blank">Hexo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://theme-next.iissnan.com/" title="nexT" target="_blank">nexT</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量说明"><span class="nav-number">1.</span> <span class="nav-text">变量说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键步骤"><span class="nav-number">2.</span> <span class="nav-text">关键步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Costfunction的搭建"><span class="nav-number">2.1.</span> <span class="nav-text">一、Costfunction的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、构造Problem"><span class="nav-number">2.2.</span> <span class="nav-text">二、构造Problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、LocalParameterization搭建"><span class="nav-number">2.3.</span> <span class="nav-text">三、LocalParameterization搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、固定初始位姿"><span class="nav-number">2.4.</span> <span class="nav-text">四、固定初始位姿</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShaoYue Lin</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="持续学习">
+<meta name="description" content="cartographer源码解析流程">
 <meta name="keywords" content="cartographer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cartographer源码解析">
 <meta property="og:url" content="http://lsy563193.github.io/slam-cartographer-notes/index.html">
 <meta property="og:site_name" content="林少岳的博客">
-<meta property="og:description" content="持续学习">
+<meta property="og:description" content="cartographer源码解析流程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-30T02:47:41.540Z">
+<meta property="og:updated_time" content="2018-11-28T09:08:39.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cartographer源码解析">
-<meta name="twitter:description" content="持续学习">
+<meta name="twitter:description" content="cartographer源码解析流程">
 
 
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  158
                 </span>
               
 
@@ -420,7 +420,26 @@
       
 
       
-        
+        <p>cartographer源码解析流程<br><a id="more"></a></p>
+<p>AddNode</p>
+<p>核心函数是ComputeConstraintsForNode,为节点添加约束，并且在后台开始扫描匹配.<br>node_id是分配的节点号，insertion_submap是允许插入的子地图，即最后两张，newly_finished_submap最后第二张子地图是否刚满（完成）<br>WorkItem::Result ComputeConstraintsForNode(node_id, insertion_submaps, newly_finished_submap);</p>
+<p>ComputeConstraintsForNode</p>
+<ol>
+<li>把轨迹节点添加到optimization_problem_.<br>optimization_problem_-&gt;AddTrajectoryNode(<pre><code> matching_id.trajectory_id,
+ optimization::NodeSpec2D{constant_data-&gt;time, local_pose_2d,
+                          global_pose_2d,
+                          constant_data-&gt;gravity_alignment})
+</code></pre>2.遍历正在插入子图，填充图优化数据中的子地图数据和内部约束。<br>data_.submap_data.at(submap_id).node_ids.emplace(node_id);<br>data_.constraints.push_back(<pre><code>   Constraint{submap_id,
+              node_id,
+              {transform::Embed3D(constraint_transform),
+               options_.matcher_translation_weight(),
+               options_.matcher_rotation_weight()},
+              Constraint::INTRA_SUBMAP});
+</code></pre></li>
+</ol>
+<p>trajectory_nodes_.at(node_id).constant_data<br>constant_data-&gt;local_pose()<br>submap.local_pose()</p>
+<p>constraint_transform</p>
+
       
     </div>
     
@@ -468,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/slam-real-time-loop-closure-in-2d-lidar-slam/" rel="next" title="cartographer 论文翻译">
-                <i class="fa fa-chevron-left"></i> cartographer 论文翻译
+              <a href="/slam-real-time-loop-closure-in-2d-lidar-slam/" rel="next" title="cartographer论文翻译:2d-lidar-slam的实时闭环">
+                <i class="fa fa-chevron-left"></i> cartographer论文翻译:2d-lidar-slam的实时闭环
               </a>
             
           </div>
@@ -478,8 +497,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/cartographer_source/turn/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/slam-cartographer-sensor/" rel="prev" title="cartographer源码解析之sensor">
+                cartographer源码解析之sensor <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -552,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -563,7 +582,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -574,7 +593,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

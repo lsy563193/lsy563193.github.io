@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="youtube-dl,proxychains,notedown," />
+  <meta name="keywords" content="youtube-dl," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="youtube-dl概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载字幕.使用这个的前提是你得翻墙。 安装1pip install --upgrade youtube-dl 常用命令youtube-dl有很多参数，我就不一一介绍。运行youtube -h可以查看所有命令,这里列出我用到的一些命令:  注意:由于众所周知的原因，使用之前需要下载proxychains,1sudo">
-<meta name="keywords" content="youtube-dl,proxychains,notedown">
+<meta name="description" content="概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载youtube视频和字幕.使用这个的前提是你得翻墙。aria2c可以使youtube-dl多线程下载，但是不支持socks5,所以终端使用privoxy代理socker">
+<meta name="keywords" content="youtube-dl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一些神奇的工具使用笔记">
+<meta property="og:title" content="youtube-dl pri">
 <meta property="og:url" content="http://lsy563193.github.io/tools-youtube-dl/index.html">
 <meta property="og:site_name" content="林少岳的博客">
-<meta property="og:description" content="youtube-dl概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载字幕.使用这个的前提是你得翻墙。 安装1pip install --upgrade youtube-dl 常用命令youtube-dl有很多参数，我就不一一介绍。运行youtube -h可以查看所有命令,这里列出我用到的一些命令:  注意:由于众所周知的原因，使用之前需要下载proxychains,1sudo">
+<meta property="og:description" content="概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载youtube视频和字幕.使用这个的前提是你得翻墙。aria2c可以使youtube-dl多线程下载，但是不支持socks5,所以终端使用privoxy代理socker">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-30T11:16:57.079Z">
+<meta property="og:updated_time" content="2018-11-07T07:57:54.525Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一些神奇的工具使用笔记">
-<meta name="twitter:description" content="youtube-dl概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载字幕.使用这个的前提是你得翻墙。 安装1pip install --upgrade youtube-dl 常用命令youtube-dl有很多参数，我就不一一介绍。运行youtube -h可以查看所有命令,这里列出我用到的一些命令:  注意:由于众所周知的原因，使用之前需要下载proxychains,1sudo">
+<meta name="twitter:title" content="youtube-dl pri">
+<meta name="twitter:description" content="概述这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载youtube视频和字幕.使用这个的前提是你得翻墙。aria2c可以使youtube-dl多线程下载，但是不支持socks5,所以终端使用privoxy代理socker">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>一些神奇的工具使用笔记 | 林少岳的博客</title>
+  <title>youtube-dl pri | 林少岳的博客</title>
   
 
 
@@ -324,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一些神奇的工具使用笔记</h1>
+          <h1 class="post-title" itemprop="name headline">youtube-dl pri</h1>
         
 
         <div class="post-meta">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  314
+                  347
                 </span>
               
 
@@ -420,11 +420,16 @@
       
 
       
-        <h2 id="youtube-dl"><a href="#youtube-dl" class="headerlink" title="youtube-dl"></a>youtube-dl</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载字幕.使用这个的前提是你得翻墙。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade youtube-dl</span><br></pre></td></tr></table></figure>
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>这是一个可以下载youtube视频和字幕的神奇工具，我主要用于下载youtube视频和字幕.使用这个的前提是你得翻墙。<br>aria2c可以使youtube-dl多线程下载，但是不支持socks5,所以终端使用privoxy代理socker<br><a id="more"></a></p>
+<p>systemctl start privoxy.service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">youtube-dl --proxy https://127.0.0.1:8118  --playlist-start  285   -o <span class="string">"%(playlist_index)s-%(title)s.%(ext)s"</span> <span class="string">"https://www.youtube.com/watch?v=G7qwhdnE7RA&amp;index=2&amp;list=PLAwxTw4SYaPlqMkzr4xyuD6cXTIgPuzgn&amp;t=0s"</span> --external-downloader aria2c --external-downloader-args <span class="string">"--https-proxy='https://127.0.0.1:8118'  -x 16 -k 1M"</span></span><br></pre></td></tr></table></figure>
+<p>命令解析:<br>youtube:<br>—proxy <a href="https://127.0.0.1:8118" target="_blank" rel="noopener">https://127.0.0.1:8118</a><br>j<br>8118是privoxy代理socks5协议的https端口.</p>
+<p>同理，aria2c也需要配置代理</p>
+<p>—https-proxy=’<a href="https://127.0.0.1:8118" target="_blank" rel="noopener">https://127.0.0.1:8118</a></p>
+<p>-x 16 -k 1M</p>
+<p>-x 是最大线程数，1M每个线程最大下载速度</p>
 <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>youtube-dl有很多参数，我就不一一介绍。运行<code>youtube -h</code>可以查看所有命令,这里列出我用到的一些命令:</p>
 <blockquote>
-<p><strong>注意</strong>:<br>由于众所周知的原因，使用之前需要下载proxychains,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install proxychains</span><br></pre></td></tr></table></figure></p>
 <p>安装proxychains,需要修改<code>/etc/proxychains</code>配置最后一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># socks4    127.0.0.1 9050</span><br><span class="line">socks5  127.0.0.1 1080</span><br></pre></td></tr></table></figure></p>
 <p>1080是你翻墙的端口</p>
 </blockquote>
@@ -435,22 +440,6 @@
 <li><strong>—sub-lang</strong>: 下载语言</li>
 <li><strong>—skip-download</strong>: 不下载视频</li>
 <li><strong>-o “%(playlist_index)s-%(title)s.%(ext)s” </strong>: 使用编号加标题</li>
-</ul>
-<h2 id="notedown"><a href="#notedown" class="headerlink" title="notedown"></a>notedown</h2><p>notedown主要是用来实现md to ipynb，这样我就可以直接一边写博客一边调试代码。<br>使用方法如下:</p>
-<ul>
-<li><p><strong>安装</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install https://github.com/aaren/notedown/tarball/master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>打开文件</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit ~/.jupyter/jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>` <strong>增加以下内容，存盘</strong></p>
-<blockquote>
-<p>c.NotebookApp.contents_manager_class = ‘notedown.NotedownContentsManager’</p>
-</blockquote>
-<ul>
-<li><strong>重启jupyter notebook 服务 </strong></li>
 </ul>
 
       
@@ -472,7 +461,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://lsy563193.github.io/tools-youtube-dl/" title="一些神奇的工具使用笔记">http://lsy563193.github.io/tools-youtube-dl/</a>
+    <a href="http://lsy563193.github.io/tools-youtube-dl/" title="youtube-dl pri">http://lsy563193.github.io/tools-youtube-dl/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -488,10 +477,6 @@
         <div class="post-tags">
           
             <a href="/tags/youtube-dl/" rel="tag"># youtube-dl</a>
-          
-            <a href="/tags/proxychains/" rel="tag"># proxychains</a>
-          
-            <a href="/tags/notedown/" rel="tag"># notedown</a>
           
         </div>
       
@@ -597,7 +582,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -608,7 +593,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -619,7 +604,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -693,7 +678,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#youtube-dl"><span class="nav-number">1.</span> <span class="nav-text">youtube-dl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用命令"><span class="nav-number">1.3.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notedown"><span class="nav-number">2.</span> <span class="nav-text">notedown</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用命令"><span class="nav-number">2.</span> <span class="nav-text">常用命令</span></a></li></ol></div>
             
 
           </div>

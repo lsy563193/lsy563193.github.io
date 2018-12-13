@@ -1,0 +1,9 @@
+@startuml
+package "scan_matching" {
+    class RealTimeCorrelativeScanMatcher2D
+    class FastCorrelativeScanMatcher2D
+    class CeresScanMatcher2D{
+      - Match()
+    }
+}
+@enduml
