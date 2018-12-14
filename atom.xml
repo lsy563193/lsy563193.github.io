@@ -205,28 +205,6 @@
   </entry>
   
   <entry>
-    <title>Scan Matching in 2D SLAM by 张明明</title>
-    <link href="http://lsy563193.github.io/slam-lidar-scan-matching-in-2d-slam/"/>
-    <id>http://lsy563193.github.io/slam-lidar-scan-matching-in-2d-slam/</id>
-    <published>2018-11-06T02:03:04.000Z</published>
-    <updated>2018-11-06T04:24:14.674Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明"><a href="#【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明" class="headerlink" title="【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明"></a>【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明</h2><a id="more"></a><h2 id="概述-Scan-Matching"><a href="#概述-Scan-Matching" class="headerlink" title="概述 Scan Matching"></a>概述 Scan Matching</h2><p>两类<br>Real-Time Loop Cloare in 2D LIDAR SLAM.ICRA2016,提到scan matching的两种方法</p><h3 id="scan-to-ccan-—ICP-etc"><a href="#scan-to-ccan-—ICP-etc" class="headerlink" title="scan-to-ccan —ICP,etc"></a>scan-to-ccan —ICP,etc</h3><ul><li>计算成本大</li><li>累积误差,需进行闭环</li><li>容易进行闭环检测<h3 id="scan-to-map-matching-—Hector-SLAM-etc"><a href="#scan-to-map-matching-—Hector-SLAM-etc" class="headerlink" title="scan-to-map matching —Hector SLAM,etc"></a>scan-to-map matching —Hector SLAM,etc</h3></li><li>误差累积小计算成本小</li><li>难以闭环<br>更进一步的算法</li></ul><h2 id="2-ICP"><a href="#2-ICP" class="headerlink" title="2.ICP"></a>2.ICP</h2><h3 id="PL-ICP-开源-ros"><a href="#PL-ICP-开源-ros" class="headerlink" title="PL-ICP(开源,ros)"></a>PL-ICP(开源,ros)</h3><p>典型的是PL-ICP,一般icp是点到点的二阶最小均平和(ICP variant using a point to linear metric ICRA2009),速度快,大的旋转不够鲁棒<br>公式:<br>论文:</p><h3 id="PL-ICP加闭环（g2o）"><a href="#PL-ICP加闭环（g2o）" class="headerlink" title="PL-ICP加闭环（g2o）"></a>PL-ICP加闭环（g2o）</h3><ul><li>关键帧的选择策略</li><li><p>如何闭环<br>对之前的关键帧进行搜索</p></li><li><ol><li>有一个大的旋转就选择一个关键帧<br>缺点：没有submap(基于视觉的闭环),</li></ol></li><li><ol><li>有个局部小闭环，</li></ol></li><li><ol><li>google 也是一个小闭环(不开源)<h3 id="Hector-Slam"><a href="#Hector-Slam" class="headerlink" title="　Hector Slam"></a>　Hector Slam</h3></li></ol></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明&quot;&gt;&lt;a href=&quot;#【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明&quot; class=&quot;headerlink&quot; title=&quot;【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明&quot;&gt;&lt;/a&gt;【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明&lt;/h2&gt;
-    
-    </summary>
-    
-      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
-    
-  </entry>
-  
-  <entry>
     <title>graph slam ceres 实现</title>
     <link href="http://lsy563193.github.io/slam-GraphSLAM-ceres/"/>
     <id>http://lsy563193.github.io/slam-GraphSLAM-ceres/</id>
@@ -249,6 +227,28 @@
   </entry>
   
   <entry>
+    <title>Scan Matching in 2D SLAM by 张明明</title>
+    <link href="http://lsy563193.github.io/slam-lidar-scan-matching-in-2d-slam/"/>
+    <id>http://lsy563193.github.io/slam-lidar-scan-matching-in-2d-slam/</id>
+    <published>2018-11-06T02:03:04.000Z</published>
+    <updated>2018-11-06T04:24:14.674Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明"><a href="#【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明" class="headerlink" title="【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明"></a>【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明</h2><a id="more"></a><h2 id="概述-Scan-Matching"><a href="#概述-Scan-Matching" class="headerlink" title="概述 Scan Matching"></a>概述 Scan Matching</h2><p>两类<br>Real-Time Loop Cloare in 2D LIDAR SLAM.ICRA2016,提到scan matching的两种方法</p><h3 id="scan-to-ccan-—ICP-etc"><a href="#scan-to-ccan-—ICP-etc" class="headerlink" title="scan-to-ccan —ICP,etc"></a>scan-to-ccan —ICP,etc</h3><ul><li>计算成本大</li><li>累积误差,需进行闭环</li><li>容易进行闭环检测<h3 id="scan-to-map-matching-—Hector-SLAM-etc"><a href="#scan-to-map-matching-—Hector-SLAM-etc" class="headerlink" title="scan-to-map matching —Hector SLAM,etc"></a>scan-to-map matching —Hector SLAM,etc</h3></li><li>误差累积小计算成本小</li><li>难以闭环<br>更进一步的算法</li></ul><h2 id="2-ICP"><a href="#2-ICP" class="headerlink" title="2.ICP"></a>2.ICP</h2><h3 id="PL-ICP-开源-ros"><a href="#PL-ICP-开源-ros" class="headerlink" title="PL-ICP(开源,ros)"></a>PL-ICP(开源,ros)</h3><p>典型的是PL-ICP,一般icp是点到点的二阶最小均平和(ICP variant using a point to linear metric ICRA2009),速度快,大的旋转不够鲁棒<br>公式:<br>论文:</p><h3 id="PL-ICP加闭环（g2o）"><a href="#PL-ICP加闭环（g2o）" class="headerlink" title="PL-ICP加闭环（g2o）"></a>PL-ICP加闭环（g2o）</h3><ul><li>关键帧的选择策略</li><li><p>如何闭环<br>对之前的关键帧进行搜索</p></li><li><ol><li>有一个大的旋转就选择一个关键帧<br>缺点：没有submap(基于视觉的闭环),</li></ol></li><li><ol><li>有个局部小闭环，</li></ol></li><li><ol><li>google 也是一个小闭环(不开源)<h3 id="Hector-Slam"><a href="#Hector-Slam" class="headerlink" title="　Hector Slam"></a>　Hector Slam</h3></li></ol></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明&quot;&gt;&lt;a href=&quot;#【泡泡机器人公开课】第二十三课：Scan-Matching-in-2D-SLAM-by-张明明&quot; class=&quot;headerlink&quot; title=&quot;【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明&quot;&gt;&lt;/a&gt;【泡泡机器人公开课】第二十三课：Scan Matching in 2D SLAM by 张明明&lt;/h2&gt;
+    
+    </summary>
+    
+      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>graph slam 理论</title>
     <link href="http://lsy563193.github.io/slam-GraphSLAM-theory/"/>
     <id>http://lsy563193.github.io/slam-GraphSLAM-theory/</id>
@@ -260,50 +260,6 @@
     <summary type="html">
     
       &lt;p&gt;graph slam 理论&lt;br&gt;
-    
-    </summary>
-    
-      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cartographer 调参日记</title>
-    <link href="http://lsy563193.github.io/slam-cartographer-turn/"/>
-    <id>http://lsy563193.github.io/slam-cartographer-turn/</id>
-    <published>2018-08-08T11:43:14.000Z</published>
-    <updated>2018-11-06T04:18:48.254Z</updated>
-    
-    <content type="html"><![CDATA[<p>cartographer 2d 调参</p><a id="more"></a><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>使用1.0.0版本,因为公司扫地机用的是indigo版本,而我本机是用kinect版,所以我使用了docker来查看和调用rviz<br>Docker.indigo需要做些更改</p><ul><li>ARG CARTOGRAPHER_VERSION=release-1.0</li><li>cmake 升级到3.2版以上</li><li></li></ul><h2 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h2><p>第一天<br>先从’/opt/ros/indigo/share/cartographer_ros/configuration’,如果找不到再到’/usr/share/cartographer-ros’找</p><ul><li>map 通常是map</li><li><strong>tracking_frame</strong>: 由SLAM算法跟踪的帧的ROS帧ID。如果使用IMU，它应该在其位置，尽管它可能是旋转的。一个常见的选择是“imu_link”。 不明,不用imu,写了odom,</li><li><strong>published_frame</strong>: ROS帧ID用作发布姿势的子帧。例如，如果“odom”帧由系统的不同部分提供，则为“odom”。在这种情况下，map_frame中的“ odom ” 姿势将被发布。否则，将其设置为“base_link”可能是合适的。 不明,写了odom</li><li><strong>odom_frame</strong>: 仅在provide_odom_frame为true时使用。published_frame 和map_frame之间的框架，用于发布（非循环关闭）本地SLAM结果。通常是“odom”。</li><li><strong>provide_odom_frame</strong>: 如果启用，则本地非闭环连续姿势将作为map_frame中的odom_frame发布。</li><li><strong>use_odometry</strong>: 如果启用，请在主题“ odom ”上订阅nav_msgs / Odometry。在这种情况下必须提供测距，并且信息将包含在SLAM中</li></ul><p>2d</p><ul><li>use_imu_data  如果不用false<br>先关闭全局slam</li><li>hit_probability 激光击中黑的程度</li><li>miss_probability 激光击不中白的程度</li></ul><p>online_correlative_scan_matching 更新initial_ceres_pose位置<br>ceres_scan_matcher_ pose_observation ,summary</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;cartographer 2d 调参&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cartographer源码解析之local_slam</title>
-    <link href="http://lsy563193.github.io/slam-cartographer-local_slam/"/>
-    <id>http://lsy563193.github.io/slam-cartographer-local_slam/</id>
-    <published>2018-08-08T11:43:14.000Z</published>
-    <updated>2018-11-06T04:20:07.729Z</updated>
-    
-    <content type="html"><![CDATA[<p>cartographer源码解析之local_slam<br><a id="more"></a></p><h2 id="LocalTrajectoryBuilder"><a href="#LocalTrajectoryBuilder" class="headerlink" title="LocalTrajectoryBuilder"></a>LocalTrajectoryBuilder</h2><p>Returns ‘MatchingResult’ when range data accumulation completed,<br>otherwise ‘nullptr’. Range data must be approximately horizontal<br>for 2D SLAM. <code>TimedPointCloudData::time</code> is when the last point in<br><code>range_data</code> was acquired, <code>TimedPointCloudData::ranges</code> contains the<br>relative time of point with respect to <code>TimedPointCloudData::time</code>.</p><h3 id="LocalTrajectoryBuilder-1"><a href="#LocalTrajectoryBuilder-1" class="headerlink" title="LocalTrajectoryBuilder"></a>LocalTrajectoryBuilder</h3><p>AddImuData添加imuData</p><h3 id="extrapolator"><a href="#extrapolator" class="headerlink" title="extrapolator_"></a>extrapolator_</h3><p>局部地图的位姿推断器。cartographer_ros不一样,addImuData时添加</p><h3 id="雷达数据的处理过程"><a href="#雷达数据的处理过程" class="headerlink" title="雷达数据的处理过程"></a>雷达数据的处理过程</h3><p>Node::HandleLaserScanMessage<br>SensorBridge::HandleLaserScanMessage<br>    ToPointCloudWithIntensities<br>    HandleLaserScan<br>    HandleRangefinder<br>CollatedTrajectoryBuilder  AddSensorData<br>    AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>    Dispatch<br>    callback</p><p>global_trajectory_builder::AddSensorData<br>LocalTrajectoryBuilder2D::AddRangeData<br>RangeDataCollator::AddRangeData<br>    extrapolator_-&gt;ExtrapolatePose<br>    accumulated_range_data_<br>    TransformToGravityAlignedFrameAndFilter<br>AddAccumulatedRangeData<br>TransformRangeData<br><!-- ScanMatch --><br><!-- InsertIntoSubmap --><br>local_slam_result_callback_<br>OnLocalSlamResult<br>GetTrajectoryStates<br>scan_matched_point_cloud_publisher_</p><h3 id="Imu的处理过程"><a href="#Imu的处理过程" class="headerlink" title="Imu的处理过程"></a>Imu的处理过程</h3><p>Node::HandleImuMessage<br>    sensor_samplers_ 分频，脉冲未到不处理<br>    extrapolators_.at(trajectory_id).AddImuData<br>SensorBridge::HandleImuMessage<br>CollatedTrajectoryBuilder::AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>BlockingQueue::Push, Dispatch callback<br>LocalTrajectoryBuilder2D::AddImuData<br>PoseExtrapolator::AddImuData<br>PoseGraph2D::AddImuData<br>OptimizationProblem2D::AddImuData</p><h3 id="Odometry的处理过程"><a href="#Odometry的处理过程" class="headerlink" title="Odometry的处理过程"></a>Odometry的处理过程</h3><p>Node::HandleOdometryMessage<br>    sensor_samplers_ 分频，脉冲未到不处理<br>    extrapolators_.at(trajectory_id).AddOdometryData  角速度和线速度<br>SensorBridge::HandleOdometryMessage<br>CollatedTrajectoryBuilder::AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>BlockingQueue::Push, Dispatch callback<br>LocalTrajectoryBuilder2D::AddOdometryData<br>PoseExtrapolator::AddOdometryData<br>PoseGraph2D::AddOdometryData<br>OptimizationProblem2D::AddOdometryData</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;cartographer源码解析之local_slam&lt;br&gt;
     
     </summary>
     
@@ -348,6 +304,50 @@
     <summary type="html">
     
       &lt;p&gt;cartographer源码解析流程&lt;br&gt;
+    
+    </summary>
+    
+      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>cartographer源码解析之local_slam</title>
+    <link href="http://lsy563193.github.io/slam-cartographer-local_slam/"/>
+    <id>http://lsy563193.github.io/slam-cartographer-local_slam/</id>
+    <published>2018-08-08T11:43:14.000Z</published>
+    <updated>2018-11-06T04:20:07.729Z</updated>
+    
+    <content type="html"><![CDATA[<p>cartographer源码解析之local_slam<br><a id="more"></a></p><h2 id="LocalTrajectoryBuilder"><a href="#LocalTrajectoryBuilder" class="headerlink" title="LocalTrajectoryBuilder"></a>LocalTrajectoryBuilder</h2><p>Returns ‘MatchingResult’ when range data accumulation completed,<br>otherwise ‘nullptr’. Range data must be approximately horizontal<br>for 2D SLAM. <code>TimedPointCloudData::time</code> is when the last point in<br><code>range_data</code> was acquired, <code>TimedPointCloudData::ranges</code> contains the<br>relative time of point with respect to <code>TimedPointCloudData::time</code>.</p><h3 id="LocalTrajectoryBuilder-1"><a href="#LocalTrajectoryBuilder-1" class="headerlink" title="LocalTrajectoryBuilder"></a>LocalTrajectoryBuilder</h3><p>AddImuData添加imuData</p><h3 id="extrapolator"><a href="#extrapolator" class="headerlink" title="extrapolator_"></a>extrapolator_</h3><p>局部地图的位姿推断器。cartographer_ros不一样,addImuData时添加</p><h3 id="雷达数据的处理过程"><a href="#雷达数据的处理过程" class="headerlink" title="雷达数据的处理过程"></a>雷达数据的处理过程</h3><p>Node::HandleLaserScanMessage<br>SensorBridge::HandleLaserScanMessage<br>    ToPointCloudWithIntensities<br>    HandleLaserScan<br>    HandleRangefinder<br>CollatedTrajectoryBuilder  AddSensorData<br>    AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>    Dispatch<br>    callback</p><p>global_trajectory_builder::AddSensorData<br>LocalTrajectoryBuilder2D::AddRangeData<br>RangeDataCollator::AddRangeData<br>    extrapolator_-&gt;ExtrapolatePose<br>    accumulated_range_data_<br>    TransformToGravityAlignedFrameAndFilter<br>AddAccumulatedRangeData<br>TransformRangeData<br><!-- ScanMatch --><br><!-- InsertIntoSubmap --><br>local_slam_result_callback_<br>OnLocalSlamResult<br>GetTrajectoryStates<br>scan_matched_point_cloud_publisher_</p><h3 id="Imu的处理过程"><a href="#Imu的处理过程" class="headerlink" title="Imu的处理过程"></a>Imu的处理过程</h3><p>Node::HandleImuMessage<br>    sensor_samplers_ 分频，脉冲未到不处理<br>    extrapolators_.at(trajectory_id).AddImuData<br>SensorBridge::HandleImuMessage<br>CollatedTrajectoryBuilder::AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>BlockingQueue::Push, Dispatch callback<br>LocalTrajectoryBuilder2D::AddImuData<br>PoseExtrapolator::AddImuData<br>PoseGraph2D::AddImuData<br>OptimizationProblem2D::AddImuData</p><h3 id="Odometry的处理过程"><a href="#Odometry的处理过程" class="headerlink" title="Odometry的处理过程"></a>Odometry的处理过程</h3><p>Node::HandleOdometryMessage<br>    sensor_samplers_ 分频，脉冲未到不处理<br>    extrapolators_.at(trajectory_id).AddOdometryData  角速度和线速度<br>SensorBridge::HandleOdometryMessage<br>CollatedTrajectoryBuilder::AddData<br>Collator::AddSensorData<br>OrderedMultiQueue::Add<br>BlockingQueue::Push, Dispatch callback<br>LocalTrajectoryBuilder2D::AddOdometryData<br>PoseExtrapolator::AddOdometryData<br>PoseGraph2D::AddOdometryData<br>OptimizationProblem2D::AddOdometryData</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;cartographer源码解析之local_slam&lt;br&gt;
+    
+    </summary>
+    
+      <category term="slam技术" scheme="http://lsy563193.github.io/categories/slam%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="cartographer" scheme="http://lsy563193.github.io/tags/cartographer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>cartographer 调参日记</title>
+    <link href="http://lsy563193.github.io/slam-cartographer-turn/"/>
+    <id>http://lsy563193.github.io/slam-cartographer-turn/</id>
+    <published>2018-08-08T11:43:14.000Z</published>
+    <updated>2018-11-06T04:18:48.254Z</updated>
+    
+    <content type="html"><![CDATA[<p>cartographer 2d 调参</p><a id="more"></a><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>使用1.0.0版本,因为公司扫地机用的是indigo版本,而我本机是用kinect版,所以我使用了docker来查看和调用rviz<br>Docker.indigo需要做些更改</p><ul><li>ARG CARTOGRAPHER_VERSION=release-1.0</li><li>cmake 升级到3.2版以上</li><li></li></ul><h2 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h2><p>第一天<br>先从’/opt/ros/indigo/share/cartographer_ros/configuration’,如果找不到再到’/usr/share/cartographer-ros’找</p><ul><li>map 通常是map</li><li><strong>tracking_frame</strong>: 由SLAM算法跟踪的帧的ROS帧ID。如果使用IMU，它应该在其位置，尽管它可能是旋转的。一个常见的选择是“imu_link”。 不明,不用imu,写了odom,</li><li><strong>published_frame</strong>: ROS帧ID用作发布姿势的子帧。例如，如果“odom”帧由系统的不同部分提供，则为“odom”。在这种情况下，map_frame中的“ odom ” 姿势将被发布。否则，将其设置为“base_link”可能是合适的。 不明,写了odom</li><li><strong>odom_frame</strong>: 仅在provide_odom_frame为true时使用。published_frame 和map_frame之间的框架，用于发布（非循环关闭）本地SLAM结果。通常是“odom”。</li><li><strong>provide_odom_frame</strong>: 如果启用，则本地非闭环连续姿势将作为map_frame中的odom_frame发布。</li><li><strong>use_odometry</strong>: 如果启用，请在主题“ odom ”上订阅nav_msgs / Odometry。在这种情况下必须提供测距，并且信息将包含在SLAM中</li></ul><p>2d</p><ul><li>use_imu_data  如果不用false<br>先关闭全局slam</li><li>hit_probability 激光击中黑的程度</li><li>miss_probability 激光击不中白的程度</li></ul><p>online_correlative_scan_matching 更新initial_ceres_pose位置<br>ceres_scan_matcher_ pose_observation ,summary</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;cartographer 2d 调参&lt;/p&gt;
     
     </summary>
     
