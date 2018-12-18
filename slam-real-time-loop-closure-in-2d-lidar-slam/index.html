@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="cartographer 论文翻译">
+<meta name="description" content="摘要LIDAR SLAM是获取平面地图的有效方法。  构建便携式捕获平台需要在有限的计算资源下操作。 我们介绍了我们的背包绘图平台中使用的方法，该平台实现了5厘米分辨率的实时构图和闭环。 为了实现实时闭环，我们使用branch-and-bound将扫描到Submap匹配计算为约束。">
 <meta name="keywords" content="cartographer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cartographer论文翻译:2d-lidar-slam的实时闭环">
 <meta property="og:url" content="http://lsy563193.github.io/slam-real-time-loop-closure-in-2d-lidar-slam/index.html">
 <meta property="og:site_name" content="林少岳的博客">
-<meta property="og:description" content="cartographer 论文翻译">
+<meta property="og:description" content="摘要LIDAR SLAM是获取平面地图的有效方法。  构建便携式捕获平台需要在有限的计算资源下操作。 我们介绍了我们的背包绘图平台中使用的方法，该平台实现了5厘米分辨率的实时构图和闭环。 为了实现实时闭环，我们使用branch-and-bound将扫描到Submap匹配计算为约束。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/lsy563193/image/blob/master/cartographer_notes/carto_submap.png?raw=true">
 <meta property="og:image" content="https://github.com/lsy563193/image/blob/master/cartographer_notes/algo1.png?raw=true">
 <meta property="og:image" content="https://github.com/lsy563193/image/blob/master/cartographer_notes/algo2.png?raw=true">
 <meta property="og:image" content="https://github.com/lsy563193/image/blob/master/cartographer_notes/algo3.png?raw=true">
-<meta property="og:updated_time" content="2018-12-13T01:40:42.085Z">
+<meta property="og:updated_time" content="2018-12-18T07:03:29.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cartographer论文翻译:2d-lidar-slam的实时闭环">
-<meta name="twitter:description" content="cartographer 论文翻译">
+<meta name="twitter:description" content="摘要LIDAR SLAM是获取平面地图的有效方法。  构建便携式捕获平台需要在有限的计算资源下操作。 我们介绍了我们的背包绘图平台中使用的方法，该平台实现了5厘米分辨率的实时构图和闭环。 为了实现实时闭环，我们使用branch-and-bound将扫描到Submap匹配计算为约束。">
 <meta name="twitter:image" content="https://github.com/lsy563193/image/blob/master/cartographer_notes/carto_submap.png?raw=true">
 
 
@@ -400,7 +400,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4,090
+                  4,085
                 </span>
               
 
@@ -425,8 +425,7 @@
       
 
       
-        <p>cartographer 论文翻译<br><a id="more"></a></p>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>LIDAR SLAM是获取平面地图的有效方法。  构建便携式捕获平台需要在有限的计算资源下操作。 我们介绍了我们的背包绘图平台中使用的方法，该平台实现了5厘米分辨率的实时构图和<code>闭环</code>。 为了实现实时<code>闭环</code>，我们使用branch-and-bound将扫描到Submap匹配计算为约束。</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>LIDAR SLAM是获取平面地图的有效方法。  构建便携式捕获平台需要在有限的计算资源下操作。 我们介绍了我们的背包绘图平台中使用的方法，该平台实现了5厘米分辨率的实时构图和<code>闭环</code>。 为了实现实时<code>闭环</code>，我们使用branch-and-bound将扫描到Submap匹配计算为约束。<br><a id="more"></a></p>
 <h2 id="I-简介"><a href="#I-简介" class="headerlink" title="I. 简介"></a>I. 简介</h2><p>本文的贡献是一种新的方法，用于降低计算激光数据的闭环约束的需求量。</p>
 <h2 id="II-相关工作"><a href="#II-相关工作" class="headerlink" title="II. 相关工作"></a>II. 相关工作</h2><p><code>Scan-to-scan matching</code>经常用于激光SLAM中计算相对姿态变化，例如[1] - [4]。 它的缺点是很快就会累积误差。</p>
 <p><code>Scan-to-map matching</code>有助于限制误差的累积。使用Gauss-Newton在线性插值地图上找到局部最优的一种方法是[5]。<br>在存在良好的位姿初始估计的情况下，在这种情况下通过使用足够高的数据速率LIDAR提供，局部优化的<code>Scan-to-map matching</code>是有效且稳健的。<br>在不稳定的平台上，使用惯性测量单元（IMU）将激光投影到水平面上以估计重力方向。</p>
@@ -598,8 +597,8 @@ M_{nearest}(x^, , y^,) \tag{17}</script><p>与叶节点一样使用$\xi_c$。<br
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/slam-cartographer-turn/" rel="prev" title="cartographer 调参日记">
-                cartographer 调参日记 <i class="fa fa-chevron-right"></i>
+              <a href="/slam-cartographer-sensor/" rel="prev" title="cartographer源码解析之sensor">
+                cartographer源码解析之sensor <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -681,7 +680,7 @@ M_{nearest}(x^, , y^,) \tag{17}</script><p>与叶节点一样使用$\xi_c$。<br
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
