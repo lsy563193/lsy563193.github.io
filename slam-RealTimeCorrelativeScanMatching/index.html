@@ -82,7 +82,7 @@
 <meta name="description" content="实时相关扫描匹配摘要 - 扫描匹配，注册两次激光扫描的问题，以确定获得扫描的相对位置，是移动机器人最依赖的工具之一。在计算性能的权衡中，当前算法采用启发法来快速计算答案。当然，这些启发式方法并不完美：现有方法可能会产生不良结果，特别是当先验较弱时。 现代机器人可用的计算能力需要重新审视这些质量与复杂性的权衡。在本文中，我们提倡一种概率驱动的扫描匹配算法，该算法以额外的计算时间为代价产生更高质量和更">
 <meta name="keywords" content="cartographer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cartographer论文翻译:2d-lidar-slam的实时扫描矫正匹配">
+<meta property="og:title" content="cartographer论文翻译:2d-lidar-slam的实时相关扫描匹配">
 <meta property="og:url" content="http://lsy563193.github.io/slam-RealTimeCorrelativeScanMatching/index.html">
 <meta property="og:site_name" content="林少岳的博客">
 <meta property="og:description" content="实时相关扫描匹配摘要 - 扫描匹配，注册两次激光扫描的问题，以确定获得扫描的相对位置，是移动机器人最依赖的工具之一。在计算性能的权衡中，当前算法采用启发法来快速计算答案。当然，这些启发式方法并不完美：现有方法可能会产生不良结果，特别是当先验较弱时。 现代机器人可用的计算能力需要重新审视这些质量与复杂性的权衡。在本文中，我们提倡一种概率驱动的扫描匹配算法，该算法以额外的计算时间为代价产生更高质量和更">
@@ -97,9 +97,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f8.png">
-<meta property="og:updated_time" content="2018-12-18T08:03:19.632Z">
+<meta property="og:updated_time" content="2018-12-18T08:26:25.293Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cartographer论文翻译:2d-lidar-slam的实时扫描矫正匹配">
+<meta name="twitter:title" content="cartographer论文翻译:2d-lidar-slam的实时相关扫描匹配">
 <meta name="twitter:description" content="实时相关扫描匹配摘要 - 扫描匹配，注册两次激光扫描的问题，以确定获得扫描的相对位置，是移动机器人最依赖的工具之一。在计算性能的权衡中，当前算法采用启发法来快速计算答案。当然，这些启发式方法并不完美：现有方法可能会产生不良结果，特别是当先验较弱时。 现代机器人可用的计算能力需要重新审视这些质量与复杂性的权衡。在本文中，我们提倡一种概率驱动的扫描匹配算法，该算法以额外的计算时间为代价产生更高质量和更">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f1.png">
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>cartographer论文翻译:2d-lidar-slam的实时扫描矫正匹配 | 林少岳的博客</title>
+  <title>cartographer论文翻译:2d-lidar-slam的实时相关扫描匹配 | 林少岳的博客</title>
   
 
 
@@ -335,7 +335,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">cartographer论文翻译:2d-lidar-slam的实时扫描矫正匹配</h1>
+          <h1 class="post-title" itemprop="name headline">cartographer论文翻译:2d-lidar-slam的实时相关扫描匹配</h1>
         
 
         <div class="post-meta">
@@ -406,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  7,800
+                  7,806
                 </span>
               
 
@@ -449,13 +449,13 @@
 </ul>
 <p>我们的方法的质量和稳健性，以及它们实时操作的能力，使其成为任何机械平台的理想选择，其中鲁棒性和准确性非常重要。<br>当然，这包括同时定位和映射（SLAM）应用程序，但实际上任何导航或本地化系统都会受益。</p>
 <p>我们首先简要回顾一下以前的工作（第二部分）。<br>我们基于CPU和GPU的方法在第III节中描述。第四节描述了我们的实证评估方法，并将我们的方法的性能与广泛使用的几种方法进行了比较。</p>
-<h2 id="II。先前的工作"><a href="#II。先前的工作" class="headerlink" title="II。先前的工作"></a>II。先前的工作</h2><p>迭代最近点（ICP）[1]，[2]和迭代最近线（ICL）[3]，[4]，[5]在扫描匹配中普遍使用。<br>在ICP中，查询扫描中的每个点根据距离度量（最常见的是欧氏距离）与参考扫描相关联。<br>然后可以计算最佳地对齐参考点和查询点的刚体变换。<br>Horn的精确闭合算法[6]特别适合于任务。</p>
+<h2 id="II-先前的工作"><a href="#II-先前的工作" class="headerlink" title="II 先前的工作"></a>II 先前的工作</h2><p>迭代最近点（ICP）[1]，[2]和迭代最近线（ICL）[3]，[4]，[5]在扫描匹配中普遍使用。<br>在ICP中，查询扫描中的每个点根据距离度量（最常见的是欧氏距离）与参考扫描相关联。<br>然后可以计算最佳地对齐参考点和查询点的刚体变换。<br>Horn的精确闭合算法[6]特别适合于任务。</p>
 <p>Lu和Milios [7]描述了两种基于ICP的扫描匹配方法。<br>第一种方法分别考虑旋转和平移组件：交替固定一个，然后优化另一个。<br>给定旋转，最小二乘法用于优化翻译。使用全局截面方法[8]进行旋转搜索。<br>他们的第二种方法，称为IDC，结合了两种类似ICP的算法和不同的点匹配启发式算法。</p>
-<p>ICL与ICP类似，不同之处在于查询点与从参考点提取的线匹配，而不是将查询点与参考点匹配。<br>这种方法的动机是传感器稀疏地对环境进行采样，并且不同的激光雷达扫描可以对环境的不同部分进行采样。<br>换句话说，即使参考和查询扫描中的环境相同，也可能没有所有点的合理对应关系。<br>simplestICL变体在每对相邻的激光雷达点之间插入线，但在许多情况下这是不希望的（例如，栏杆栏杆和深度不连续）。<br>或者，可以使用启发式方法来确定哪些点可能是连接表面的一部分，或者可以从较大的点集中提取线/样条[9]，[3]，[4]。<br>作为他在机器人Blanche上工作的一部分，Cox描述了最早的ICL扫描匹配算法之一[10]。<br>值得注意的是，该算法在当时可用的硬件上运行，实现了0.125 Hz的更新速率。<br>通常期望扫描匹配方法产生协方差估计，并且Cox建议使用从最小二乘公式中掉出的不确定性估计。<br>在简单的环境中（特别是当可用的低复杂度的先前地图时），这可以很好地工作。<br>然而，在实践中，从最小二乘得出的不确定性估计过于自信;这是因为最小二乘步骤以数据关联为条件。<br>不幸的是，数据关联最初是未知的，并且迭代方法可能无法计算正确的对应关系。<br>由于从最小二乘法得出的不确定性估计值并未反映数据关联的不确定性，因此不确定性估计值往往过于自信。</p>
+<p>ICL与ICP类似，不同之处在于查询点与从参考点提取的线匹配，而不是将查询点与参考点匹配。<br>这种方法的动机是传感器稀疏地对环境进行采样，并且不同的激光雷达扫描可以对环境的不同部分进行采样。<br>换句话说，即使参考和查询扫描中的环境相同，也可能没有所有点的合理对应关系。<br>最简单的 ICL变体在每对相邻的激光雷达点之间插入线，但在许多情况下这是不希望的（例如，栏杆栏杆和深度不连续）。<br>或者，可以使用启发式方法来确定哪些点可能是连接表面的一部分，或者可以从较大的点集中提取线/样条[9]，[3]，[4]。<br>作为他在机器人Blanche上工作的一部分，Cox描述了最早的ICL扫描匹配算法之一[10]。<br>值得注意的是，该算法在当时可用的硬件上运行，实现了0.125 Hz的更新速率。<br>通常期望扫描匹配方法产生协方差估计，并且Cox建议使用从最小二乘公式中掉出的不确定性估计。<br>在简单的环境中（特别是当可用的低复杂度的先前地图时），这可以很好地工作。<br>然而，在实践中，从最小二乘得出的不确定性估计过于自信;这是因为最小二乘步骤以数据关联为条件。<br>不幸的是，数据关联最初是未知的，并且迭代方法可能无法计算正确的对应关系。<br>由于从最小二乘法得出的不确定性估计值并未反映数据关联的不确定性，因此不确定性估计值往往过于自信。</p>
 <p>文献中充满了其他扫描匹配启发式算法。<br>这些包括使用极坐标[11]，正态分布变换，基于特征的方法[3]，[4]，霍夫变换[12]和直方图[13]，[14]。</p>
 <p>我们的工作在精神上与Konolige基于相关的本地化方法非常相似[15]。<br>虽然问题的表述几乎相同，但我们描述了计算答案的新方法。</p>
 <p>图形处理单元（GPU）尚未广泛用于机器人应用。<br>文献检索发现只有一篇关于运动规划的论文[16];令人惊讶的是，它是从1990年开始的。<br>我们相信我们的实现是使用GPU加速映射和本地化的第一个示例。</p>
-<h2 id="III。-APPROACH"><a href="#III。-APPROACH" class="headerlink" title="III。 APPROACH"></a>III。 APPROACH</h2><h3 id="A-概率公式"><a href="#A-概率公式" class="headerlink" title="A.概率公式"></a>A.概率公式</h3><p>我们根据图2所示的图形模型对扫描匹配问题进行建模。<br>根据某些动作，机器人正在从$x_{i-1}$移动到$x_i$。<br>观察值取决于环境模型m和机器人的位置。</p>
+<h2 id="III-方法"><a href="#III-方法" class="headerlink" title="III 方法"></a>III 方法</h2><h3 id="A-概率公式"><a href="#A-概率公式" class="headerlink" title="A.概率公式"></a>A.概率公式</h3><p>我们根据图2所示的图形模型对扫描匹配问题进行建模。<br>根据某些动作，机器人正在从$x_{i-1}$移动到$x_i$。<br>观察值取决于环境模型m和机器人的位置。</p>
 <p>我们的目标是找到机器人位置的后验分布，$p(x_i|x_{i-1}; u, m, z)$。<br>我们应用贝叶斯规则并删除不相关的条件，给出：</p>
 <p><img src="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/l1.png" alt="image"></p>
 <p>第一项，$p（z|x_i, m）$是观察模型：如果环境和机器人的位置已知，特定观察的可能性有多大？第二项，$p(x_i|x_{i-1}, u)$是机器人的运动模型，例如从控制输入或odometry获得。</p>
@@ -488,7 +488,7 @@
 <p>从$p(z|x_i, m)$的计算值估计扫描匹配器的不确定性考虑了两个主要来源<br>模糊性：传感器本身的噪声，以及哪些查询点应与模型的哪些部分相关联的不确定性。<br>这种方法的缺点在于最终的结果。 5。<br>样本协方差。左：位置在^ x和^ y方向上受到很好的约束，产生可信的协方差估计。<br>右：长走廊仅提供一些纵向约束，产生一个细长的不确定性椭圆。高斯只适用于已计算的样本。<br>任何不在采样体积内的高概率区域都不会反映在高斯分布中，从而导致估计过于自信。<br>因此，重要的是评估概率$p(z| x_i, m)$在大范围的x — 我们的方法做得好。<br>有关两个案例引起的协方差估计，请参见图5。</p>
 <p><img src="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f4.png" alt="image"></p>
 <p><img src="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f5.png" alt="image"></p>
-<h2 id="IV。-RESULTS"><a href="#IV。-RESULTS" class="headerlink" title="IV。 RESULTS"></a>IV。 RESULTS</h2><h3 id="A-实验设计"><a href="#A-实验设计" class="headerlink" title="A 实验设计"></a>A 实验设计</h3><p>对扫描匹配器进行全面的经验评估需要大量的地面数据。<br>目前，获得这些数据的唯一合理方法是通过模拟。<br>然而，通过模拟从真实数据生成的地图中的新数据，可以避免模拟的传统缺点（具有最小变化的不切实际的非杂乱环境）。<br>在本文中，我们模拟了从英特尔研究中心数据集构建的地图中的激光雷达数据（参见图6）。<br>原始数据可从Radish [20]数据存储库获得。<br>该图使用扫描匹配器构建，该扫描匹配器采用本文中的方法结合稳健的闭环方法[4]。</p>
+<h2 id="IV-结果"><a href="#IV-结果" class="headerlink" title="IV 结果"></a>IV 结果</h2><h3 id="A-实验设计"><a href="#A-实验设计" class="headerlink" title="A 实验设计"></a>A 实验设计</h3><p>对扫描匹配器进行全面的经验评估需要大量的地面数据。<br>目前，获得这些数据的唯一合理方法是通过模拟。<br>然而，通过模拟从真实数据生成的地图中的新数据，可以避免模拟的传统缺点（具有最小变化的不切实际的非杂乱环境）。<br>在本文中，我们模拟了从英特尔研究中心数据集构建的地图中的激光雷达数据（参见图6）。<br>原始数据可从Radish [20]数据存储库获得。<br>该图使用扫描匹配器构建，该扫描匹配器采用本文中的方法结合稳健的闭环方法[4]。</p>
 <p>为了使模拟观测更加真实（并且考虑到在数据收集过程中并未观察到建筑物的所有部分），法律观察位置是手工注释的;这些区域显示为蓝色。<br>我们的实验从蓝色区域随机选择一个合法的姿势，然后选择附近的另一个姿势。<br>这第二个姿势必须满足两个条件：它也必须是一个合法的姿势（即，在<br>蓝色区域），两次扫描之间必须有一条连续的蓝线。<br>这与我们使用360度扫描相结合，可确保两次扫描至少包含一些重叠视图。</p>
 <p>这些预防措施确保模拟扫描包括至少一些重叠特征;如果没有重叠的特征，则不需要扫描匹配方法来计算合理的答案。<br>该采样程序产生逼真的扫描，由于机器人的不同位置而显示出真实的杂波，噪声和遮挡效应。<br>我们没有模拟行人等动态物体的效果。<br>最后，模拟激光</p>
 <p><img src="https://raw.githubusercontent.com/lsy563193/image/master/cartographer_notes/rt-scan-matching/f6.png" alt="image"></p>
@@ -550,7 +550,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://lsy563193.github.io/slam-RealTimeCorrelativeScanMatching/" title="cartographer论文翻译:2d-lidar-slam的实时扫描矫正匹配">http://lsy563193.github.io/slam-RealTimeCorrelativeScanMatching/</a>
+    <a href="http://lsy563193.github.io/slam-RealTimeCorrelativeScanMatching/" title="cartographer论文翻译:2d-lidar-slam的实时相关扫描匹配">http://lsy563193.github.io/slam-RealTimeCorrelativeScanMatching/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -667,7 +667,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -763,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实时相关扫描匹配"><span class="nav-text">实时相关扫描匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#I-引言"><span class="nav-text">I.引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#II。先前的工作"><span class="nav-text">II。先前的工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#III。-APPROACH"><span class="nav-text">III。 APPROACH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-概率公式"><span class="nav-text">A.概率公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-查找-表格栅格化"><span class="nav-text">B.查找 - 表格栅格化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-方法概述"><span class="nav-text">C.方法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-多级解决方案"><span class="nav-text">D.多级解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#E-图形处理器"><span class="nav-text">E.图形处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#F-计算协方差"><span class="nav-text">F.计算协方差</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IV。-RESULTS"><span class="nav-text">IV。 RESULTS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-实验设计"><span class="nav-text">A 实验设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B。-比较方法"><span class="nav-text">B。 比较方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-性能"><span class="nav-text">C.性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#V-结论"><span class="nav-text">V.结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实时相关扫描匹配"><span class="nav-text">实时相关扫描匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#I-引言"><span class="nav-text">I.引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#II-先前的工作"><span class="nav-text">II 先前的工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#III-方法"><span class="nav-text">III 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-概率公式"><span class="nav-text">A.概率公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-查找-表格栅格化"><span class="nav-text">B.查找 - 表格栅格化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-方法概述"><span class="nav-text">C.方法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-多级解决方案"><span class="nav-text">D.多级解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#E-图形处理器"><span class="nav-text">E.图形处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#F-计算协方差"><span class="nav-text">F.计算协方差</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IV-结果"><span class="nav-text">IV 结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-实验设计"><span class="nav-text">A 实验设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B。-比较方法"><span class="nav-text">B。 比较方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-性能"><span class="nav-text">C.性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#V-结论"><span class="nav-text">V.结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -783,7 +783,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
